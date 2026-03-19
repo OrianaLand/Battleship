@@ -1,4 +1,4 @@
-import { Gameboard } from "../gameboard";
+import { Gameboard } from "../classes/gameboard";
 import { Ship } from "../classes/ship";
 describe("Gameboard", () => {
   let gameboard;
