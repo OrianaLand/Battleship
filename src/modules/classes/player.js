@@ -22,8 +22,8 @@ export class Player {
     let validAttack = false;
 
     while (!validAttack) {
-      row = Math.floor(Math.random() * 10);
-      col = Math.floor(Math.random() * 10);
+      row = Math.floor(Math.random() * opponentGameboard.size);
+      col = Math.floor(Math.random() * opponentGameboard.size);
 
       if (!this.attacks.some(([r, c]) => r === row && c === col)) {
         validAttack = true;
