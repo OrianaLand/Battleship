@@ -18,7 +18,7 @@ export class Gameboard {
     }
 
     //Place the ship
-    for (let i = 0; i < ship.length; i++) {
+    for (let i = 0; i < ship.getLength(); i++) {
       if (orientation === "H") {
         this.grid[row][col + i] = ship;
       } else {
@@ -34,7 +34,7 @@ export class Gameboard {
     if (orientation !== "H" && orientation !== "V") return false; // Check if orientation is valid
     if (row < 0 || col < 0) return false; // Check for negative coordinates
 
-    for (let i = 0; i < ship.length; i++) {
+    for (let i = 0; i < ship.getLength(); i++) {
       let checkRow = orientation === "H" ? row : row + i;
       let checkCol = orientation === "H" ? col + i : col;
 
