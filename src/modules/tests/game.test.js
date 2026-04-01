@@ -42,4 +42,41 @@ describe("Game", () => {
       expect(game.human.gameboard).not.toBe(game.cpu.gameboard);
     });
   });
+
+  describe("placeHumanShip", () => {
+    test("Should place ship when game is in setup state", () => {
+      const ship = new Ship(5);
+      const result = game.placeHumanShip(ship, 0, 0, "H");
+
+      expect(result).toBe(true);
+      expect(game.human.gameboard.grid[0][0]).not.toBeNull();
+    });
+
+    test("Should throw error when game is not in setup state", () => {
+      game.state = "playing";
+      const ship = new Ship(5);
+
+      expect(() => {
+        game.placeHumanShip(ship, 0, 0, "V");
+      }).toThrow("Game already started");
+    });
+
+    test("should return false for invalid placement", () => {
+      const ship = new Ship(5);
+      // Trying to place a 5-length ship at edge with horizontal orientation
+      const result = game.placeHumanShip(ship, 0, 8, "H");
+
+      expect(result).toBe(false);
+    });
+
+    test("should not place overlapping ships", () => {
+      const ship1 = new Ship(3);
+      const ship2 = new Ship(3);
+
+      game.placeHumanShip(ship1, 0, 0, "H");
+      const result = game.placeHumanShip(ship2, 0, 1, "H");
+
+      expect(result).toBe(false);
+    });
+  });
 });
