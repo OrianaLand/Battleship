@@ -9,4 +9,10 @@ export class Game {
     this.state = "setup"; // "setup" | "playing" | "over"
     this.winner = null;
   }
+
+  // --- Setup phase ---
+  placeHumanShip(ship, row, col, orientation) {
+    if (this.state !== "setup") throw new Error("Game already started");
+    return this.human.gameboard.placeShip(ship, row, col, orientation);
+  }
 }
