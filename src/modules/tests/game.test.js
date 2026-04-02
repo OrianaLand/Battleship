@@ -79,4 +79,70 @@ describe("Game", () => {
       expect(result).toBe(false);
     });
   });
+
+  describe("placeCPUShipsRandomly", () => {
+    test("Should place all 5 ships for CPU", () => {
+      // Spy on placeShip to county calls
+      const placeShipSpy = jest.spyOn(game.cpu.gameboard, "placeShip");
+
+      game.placeCPUShipsRandomly();
+
+      // Should attempt to place 5 ships
+      expect(placeShipSpy).toHaveBeenCalledTimes(5);
+      expect(game.cpu.gameboard.allShipsPlaced()).toBe(true);
+    });
+
+    test("should place ships of correct lenghts", () => {
+      //Track ship lenghts placed
+      const shipLengths = [];
+      const originalPlaceShip = game.cpu.gameboard.placeShip;
+
+      jest
+        .spyOn(game.cpu.gameboard, "placeShip")
+        .mockImplementation((ship, row, col, orientation) => {
+          shipLengths.push(ship.length);
+          return originalPlaceShip.call(
+            game.cpu.gameboard,
+            ship,
+            row,
+            col,
+            orientation,
+          );
+        });
+
+      game.placeCPUShipsRandomly();
+
+      // Expected lengths: 5, 4, 3, 3, 2
+      expect(shipLengths).toContain(5);
+      expect(shipLengths).toContain(4);
+      expect(shipLengths).toContain(3);
+      expect(shipLengths).toContain(3);
+      expect(shipLengths).toContain(2);
+      expect(shipLengths.length).toBe(5);
+    });
+
+    test("should retry until all ships fit on board", () => {
+      // This is more of a logic test - should eventually place all ships
+      game.placeCPUShipsRandomly();
+
+      // Verify all ships are placed without overlap
+      const allPositions = new Set();
+      let hasOverlap = false;
+
+      // Check each ship's positions
+      for (const ship of game.cpu.gameboard.ships) {
+        for (const pos of ship.positions) {
+          const key = `${pos.row},${pos.col}`;
+          if (allPositions.has(key)) {
+            hasOverlap = true;
+            break;
+          }
+          allPositions.add(key);
+        }
+      }
+
+      expect(hasOverlap).toBe(false);
+      expect(game.cpu.gameboard.ships.length).toBe(5);
+    });
+  });
 });
