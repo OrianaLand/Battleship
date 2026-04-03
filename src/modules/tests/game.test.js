@@ -86,33 +86,24 @@ describe("Game", () => {
       expect(game.cpu.gameboard.ships.length).toBe(5);
     });
 
-    test("should place ships of correct lenghts", () => {
-      //Track ship lenghts placed
-      const shipLengths = [];
-      const originalPlaceShip = game.cpu.gameboard.placeShip;
-
-      jest
-        .spyOn(game.cpu.gameboard, "placeShip")
-        .mockImplementation((ship, row, col, orientation) => {
-          shipLengths.push(ship.length);
-          return originalPlaceShip.call(
-            game.cpu.gameboard,
-            ship,
-            row,
-            col,
-            orientation,
-          );
-        });
-
+    test("should place all 5 ships for CPU with correct lengths", () => {
       game.placeCPUShipsRandomly();
 
-      // Expected lengths: 5, 4, 3, 3, 2
-      expect(shipLengths).toContain(5);
-      expect(shipLengths).toContain(4);
-      expect(shipLengths).toContain(3);
-      expect(shipLengths).toContain(3);
-      expect(shipLengths).toContain(2);
-      expect(shipLengths.length).toBe(5);
+      // Verify ship counts by getting all occupied cells and extracting unique ships
+      const shipLengths = [];
+      const seenShips = new Set();
+
+      for (let row = 0; row < game.cpu.gameboard.size; row++) {
+        for (let col = 0; col < game.cpu.gameboard.size; col++) {
+          const cell = game.cpu.gameboard.grid[row][col];
+          if (cell && !seenShips.has(cell)) {
+            seenShips.add(cell);
+            shipLengths.push(cell.getLength());
+          }
+        }
+      }
+
+      expect(shipLengths.sort()).toEqual([2, 3, 3, 4, 5]);
     });
 
     test("should retry until all ships fit on board", () => {
