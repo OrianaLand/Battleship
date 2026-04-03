@@ -81,15 +81,9 @@ describe("Game", () => {
   });
 
   describe("placeCPUShipsRandomly", () => {
-    test("Should place all 5 ships for CPU", () => {
-      // Spy on placeShip to county calls
-      const placeShipSpy = jest.spyOn(game.cpu.gameboard, "placeShip");
-
+    test("should place exactly 5 ships", () => {
       game.placeCPUShipsRandomly();
-
-      // Should attempt to place 5 ships
-      expect(placeShipSpy).toHaveBeenCalledTimes(5);
-      expect(game.cpu.gameboard.allShipsPlaced()).toBe(true);
+      expect(game.cpu.gameboard.ships.length).toBe(5);
     });
 
     test("should place ships of correct lenghts", () => {
