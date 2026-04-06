@@ -106,28 +106,31 @@ describe("Game", () => {
       expect(shipLengths.sort()).toEqual([2, 3, 3, 4, 5]);
     });
 
-    test("should retry until all ships fit on board", () => {
-      // This is more of a logic test - should eventually place all ships
+    test("should place all 5 ships with no overlapping positions", () => {
       game.placeCPUShipsRandomly();
 
-      // Verify all ships are placed without overlap
-      const allPositions = new Set();
-      let hasOverlap = false;
+      // Verify all ships are placed (no placement failures)
+      expect(game.cpu.gameboard.ships.length).toBe(5);
 
-      // Check each ship's positions
-      for (const ship of game.cpu.gameboard.ships) {
-        for (const pos of ship.positions) {
-          const key = `${pos.row},${pos.col}`;
-          if (allPositions.has(key)) {
-            hasOverlap = true;
-            break;
+      // Verify no overlapping ships by checking grid
+
+      let occupiedCells = 0;
+      for (let row = 0; row < game.cpu.gameboard.size; row++) {
+        for (let col = 0; col < game.cpu.gameboard.size; col++) {
+          if (game.cpu.gameboard.grid[row][col] !== null) {
+            occupiedCells++;
           }
-          allPositions.add(key);
         }
       }
+      // 5+4+3+3+2 = 17 cells occupied
+      expect(occupiedCells).toBe(17);
 
-      expect(hasOverlap).toBe(false);
-      expect(game.cpu.gameboard.ships.length).toBe(5);
+      // Verify all ships are placed without overlap by checking ship.length count matches
+      const totalShipLenght = game.cpu.gameboard.ships.reduce(
+        (sum, ship) => sum + ship.getLength(),
+        0,
+      );
+      expect(occupiedCells).toBe(totalShipLenght);
     });
   });
 });
