@@ -133,4 +133,28 @@ describe("Game", () => {
       expect(occupiedCells).toBe(totalShipLenght);
     });
   });
+
+  describe("startGame", () => {
+    test("should start game and set state to playing", () => {
+      game.startGame();
+
+      expect(game.state).toBe("playing");
+    });
+
+    test("should automatically place CPU ships", () => {
+      const cpuPlacementSpy = jest.spyOn(game, "placeCPUShipsRandomly");
+
+      game.startGame();
+      expect(cpuPlacementSpy).toHaveBeenCalled();
+      expect(game.cpu.gameboard.ships.length).toBe(5);
+    });
+
+    test("should thrown error if game already started", () => {
+      game.startGame();
+
+      expect(() => {
+        game.startGame();
+      }).toThrow("Game already started");
+    });
+  });
 });
