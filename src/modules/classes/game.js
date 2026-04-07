@@ -31,4 +31,10 @@ export class Game {
       }
     }
   }
+
+  startGame() {
+    if (this.state !== "setup") throw new Error("Game already started");
+    this.placeCPUShipsRandomly();
+    this.state = "playing";
+  }
 }
