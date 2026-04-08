@@ -157,4 +157,50 @@ describe("Game", () => {
       }).toThrow("Game already started");
     });
   });
+
+  describe("humanAttack", () => {
+    beforeEach(() => {
+      //Set up game with ships for testing
+      game.startGame();
+    });
+
+    test("should process attack and return result", () => {
+      const result = game.humanAttack(0, 0);
+
+      expect(result).toBeDefined();
+      expect(game.human.attacks).toContainEqual([0, 0]);
+    });
+
+    test("should switch turn to CPU after attack", () => {
+      expect(game.currentTurn).toBe("human");
+      game.humanAttack(0, 0);
+      expect(game.currentTurn).toBe("cpu");
+    });
+
+    test("should not switch turns if game is over", () => {
+      jest.spyOn(game.cpu.gameboard, "allShipSunk").mockReturnValue(true);
+
+      game.humanAttack(0, 0);
+
+      expect(game.currentTurn).toBe("human");
+      expect(game.state).tobe("over");
+      expect(game.winner).toBe("human");
+    });
+
+    test("should throw error when the game is not in playing state", () => {
+      game.state = "setup";
+
+      expect(() => {
+        game.humanAttack(0, 0);
+      }).toThrow("Game is not in progress");
+    });
+
+    test("should throw error when is not human turn", () => {
+      game.currentTurn = "cpu";
+
+      expect(() => {
+        game.humanAttack(0, 0);
+      }).toThrow("Not your turn");
+    });
+  });
 });
