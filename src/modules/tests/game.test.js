@@ -195,6 +195,17 @@ describe("Game", () => {
         game.humanAttack(0, 0);
       }).toThrow("Not your turn");
     });
+
+    test("should not switch turn if game is over", () => {
+      // Mock all CPU ships as sunk
+      jest.spyOn(game.cpu.gameboard, "allShipsSunk").mockReturnValue(true);
+
+      game.humanAttack(0, 0);
+
+      expect(game.currentTurn).toBe("human");
+      expect(game.state).toBe("over");
+      expect(game.winner).toBe("human");
+    });
   });
 
   describe("cpuAttack", () => {
