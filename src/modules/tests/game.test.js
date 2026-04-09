@@ -160,6 +160,9 @@ describe("Game", () => {
 
   describe("humanAttack", () => {
     beforeEach(() => {
+      //Place at least one ship to avoid allShipSunk() to return true on an empty array
+      game.placeHumanShip(new Ship(2), 0, 0, "H");
+
       //Set up game with ships for testing
       game.startGame();
     });
