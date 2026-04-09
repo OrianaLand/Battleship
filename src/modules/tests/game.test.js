@@ -271,4 +271,35 @@ describe("Game", () => {
       expect(game.winner).toBe("cpu");
     });
   });
+
+  describe("getState", () => {
+    beforeEach(() => {
+      game.startGame();
+      //Add attack to verify board state
+      game.human.attacks.push([0, 0]);
+    });
+
+    test("should return current game state", () => {
+      const state = game.getState();
+
+      expect(state).toEqual({
+        state: "playing",
+        currentTurn: "human",
+        winner: "null",
+        humanBoard: game.human.gameboard.grid,
+        cpuBoard: game.cpu.gameboard.grd,
+      });
+
+      test("should return correct state after game ends", () => {
+        // Mock game over
+        game.state = "over";
+        game.winner = "human";
+
+        const state = game.getState();
+
+        expect(state.state).toBe("over");
+        expect(state.winner).toBe("human");
+      });
+    });
+  });
 });
