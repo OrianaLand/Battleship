@@ -244,7 +244,7 @@ describe("Game", () => {
     test("should throw error when it's not CPU's turn", () => {
       game.currentTurn = "human";
 
-      exppect(() => {
+      expect(() => {
         game.cpuAttack();
       }).toThrow("Not CPU's turn");
     });
