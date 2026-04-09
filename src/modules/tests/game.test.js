@@ -205,6 +205,7 @@ describe("Game", () => {
     });
 
     test("should process CPU attack and return result", () => {
+      game.currentTurn = "cpu";
       const result = game.cpuAttack();
 
       expect(result).toEqual({ row: 1, col: 1, result: "miss" });
