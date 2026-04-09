@@ -180,16 +180,6 @@ describe("Game", () => {
       expect(game.currentTurn).toBe("cpu");
     });
 
-    test("should not switch turns if game is over", () => {
-      jest.spyOn(game.cpu.gameboard, "allShipsSunk").mockReturnValue(true);
-
-      game.humanAttack(0, 0);
-
-      expect(game.currentTurn).toBe("human");
-      expect(game.state).toBe("over");
-      expect(game.winner).toBe("human");
-    });
-
     test("should throw error when the game is not in playing state", () => {
       game.state = "setup";
 
@@ -204,6 +194,68 @@ describe("Game", () => {
       expect(() => {
         game.humanAttack(0, 0);
       }).toThrow("Not your turn");
+    });
+  });
+
+  describe("cpuAttack", () => {
+    beforeEach(() => {
+      game.startGame();
+      //Setup mock for randomAttack to return predictable results
+      game.cpu.randomAttack.mockReturnValue({ row: 1, col: 1, result: "miss" });
+    });
+
+    test("should process CPU attack and return result", () => {
+      const result = game.cpuAttack();
+
+      expect(result).toEqual({ row: 1, col: 1, result: "miss" });
+      expect(game.cpu.randomAttack).toHaveBeenCalledWith(game.human.gameboard);
+    });
+
+    test("should switch turn to human after attack", () => {
+      game.currentTurn = "cpu";
+
+      game.cpuAttack();
+
+      expect(game.currentTurn).toBe("Human");
+    });
+
+    test("should not switch turn if game is over", () => {
+      game.currentTurn = "cpu";
+
+      //Mock human ships as all sunk
+      jest.spyOn(game.human.gameboard, "allShipsSunk").mockReturnValue(true);
+
+      game.cpuAttack();
+
+      expect(game.currentTurn).toBe("cpu");
+      expect(game.state).toBe("over");
+      expect(game.winner).toBe("cpu");
+    });
+
+    test("should throw error when game is not in playing state", () => {
+      game.state = "setup";
+
+      expect(() => {
+        game.cpuAttack();
+      }).toThrow("Game is not in progress");
+    });
+
+    test("should throw error when it's not CPU's turn", () => {
+      game.currentTurn = "human";
+
+      exppect(() => {
+        game.cpuAttack();
+      }).toThrow("Not CPU's turn");
+    });
+
+    test("should detect CPU win when all human ships are sunk", () => {
+      // Mock human ships as all sunk
+      jest.spyOn(game.human.gameboard, "allShipsSunk").mockReturnValue(true);
+
+      game.cpuAttack();
+
+      expect(game.state).toBe("over");
+      expect(game.winner).toBe("cpu");
     });
   });
 });
