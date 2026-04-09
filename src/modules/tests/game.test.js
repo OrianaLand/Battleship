@@ -285,21 +285,21 @@ describe("Game", () => {
       expect(state).toEqual({
         state: "playing",
         currentTurn: "human",
-        winner: "null",
+        winner: null,
         humanBoard: game.human.gameboard.grid,
-        cpuBoard: game.cpu.gameboard.grd,
+        cpuBoard: game.cpu.gameboard.grid,
       });
+    });
 
-      test("should return correct state after game ends", () => {
-        // Mock game over
-        game.state = "over";
-        game.winner = "human";
+    test("should return correct state after game ends", () => {
+      // Mock game over
+      game.state = "over";
+      game.winner = "human";
 
-        const state = game.getState();
+      const state = game.getState();
 
-        expect(state.state).toBe("over");
-        expect(state.winner).toBe("human");
-      });
+      expect(state.state).toBe("over");
+      expect(state.winner).toBe("human");
     });
   });
 });

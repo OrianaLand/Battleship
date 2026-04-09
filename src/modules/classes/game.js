@@ -72,4 +72,16 @@ export class Game {
       }
     }
   }
+
+  // --- Utility ---
+
+  getState() {
+    return {
+      state: this.state,
+      currentTurn: this.currentTurn,
+      winner: this.winner,
+      humanBoard: this.human.gameboard.grid,
+      cpuBoard: this.cpu.gameboard.grid,
+    };
+  }
 }
