@@ -57,7 +57,7 @@ export class Game {
     const result = this.cpu.randomAttack(this.human.gameboard);
     this.#checkForWinner();
 
-    if ((this.state = "playing")) this.currentTurn = "human";
+    if (this.state === "playing") this.currentTurn = "human";
     return result;
   }
 
