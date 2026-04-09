@@ -37,4 +37,28 @@ export class Game {
     this.placeCPUShipsRandomly();
     this.state = "playing";
   }
+
+  // --- Playing phase ---
+  humanAttack(row, col) {
+    if (this.state !== "playing") throw new Error("Game is not in progress");
+    if (this.currentTurn !== "human") throw new Error("Not your turn");
+
+    const result = this.human.attack(this.cpu.gameboard, row, col);
+    this.#checkForWinner();
+
+    if (this.state === "playing") this.currentTurn = "cpu";
+    return result;
+  }
+
+  #checkForWinner() {
+    {
+      if (this.cpu.gameboard.allShipsSunk()) {
+        this.state = "over";
+        this.winner = "human";
+      } else if (this.human.gameboard.allShipsSunk()) {
+        this.state = "over";
+        this.winner = "cpu";
+      }
+    }
+  }
 }
