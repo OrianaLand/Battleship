@@ -50,6 +50,17 @@ export class Game {
     return result;
   }
 
+  cpuAttack() {
+    if (this.state !== "playing") throw new Error("Game is not in progress");
+    if (this.currentTurn !== "cpu") throw new Error("Not CPU's turn");
+
+    const result = this.cpu.randomAttack(this.human.gameboard);
+    this.#checkForWinner();
+
+    if ((this.state = "playing")) this.currentTurn = "human";
+    return result;
+  }
+
   #checkForWinner() {
     {
       if (this.cpu.gameboard.allShipsSunk()) {
