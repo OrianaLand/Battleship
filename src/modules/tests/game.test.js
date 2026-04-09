@@ -250,6 +250,7 @@ describe("Game", () => {
     });
 
     test("should detect CPU win when all human ships are sunk", () => {
+      game.currentTurn = "cpu";
       // Mock human ships as all sunk
       jest.spyOn(game.human.gameboard, "allShipsSunk").mockReturnValue(true);
 
