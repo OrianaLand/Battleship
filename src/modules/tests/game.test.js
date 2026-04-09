@@ -217,7 +217,7 @@ describe("Game", () => {
 
       game.cpuAttack();
 
-      expect(game.currentTurn).toBe("Human");
+      expect(game.currentTurn).toBe("human");
     });
 
     test("should not switch turn if game is over", () => {
