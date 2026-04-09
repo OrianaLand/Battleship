@@ -181,12 +181,12 @@ describe("Game", () => {
     });
 
     test("should not switch turns if game is over", () => {
-      jest.spyOn(game.cpu.gameboard, "allShipSunk").mockReturnValue(true);
+      jest.spyOn(game.cpu.gameboard, "allShipsSunk").mockReturnValue(true);
 
       game.humanAttack(0, 0);
 
       expect(game.currentTurn).toBe("human");
-      expect(game.state).tobe("over");
+      expect(game.state).toBe("over");
       expect(game.winner).toBe("human");
     });
 
