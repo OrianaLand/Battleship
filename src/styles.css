@@ -36,6 +36,9 @@ body {
 }
 
 .grid{
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
     border: 1px solid green;
     height: 20em;
     width: 20em;
