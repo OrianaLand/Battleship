@@ -5,3 +5,9 @@
 body {
     background-color: rgb(39, 39, 79);
 }
+
+.grid{
+    border: 1px solid green;
+    height: 20em;
+    width: 20em;
+}

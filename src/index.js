@@ -1,6 +1,7 @@
 import "./styles.css";
 import { Game } from "./modules/classes/game";
 import { Ship } from "./modules/classes/ship";
+import { createBoardGrid } from "./dom/renderBoard";
 console.log("Battleship console test");
 
 const game = new Game();
@@ -16,7 +17,7 @@ game.placeHumanShip(new Ship(2), 2, 8, "H");
 game.startGame();
 
 // simulate a turn
-const result = game.humanAttack(3, 4);
+/* const result = game.humanAttack(3, 4);
 const cpuResult = game.cpuAttack(2, 7);
 
 console.log(result);
@@ -25,3 +26,6 @@ console.log(game.getState());
 console.log(game.human.gameboard.ships);
 console.log(game.human.gameboard.grid);
 console.log(game.cpu.gameboard.grid);
+ */
+
+createBoardGrid(game.human.gameboard);
