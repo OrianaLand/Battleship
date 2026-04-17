@@ -30,3 +30,18 @@ function createCell(row, col, board, hiddenShhips) {
 
   return cell;
 }
+
+export function updateCell(grid, board, row, col, hideShips = false) {
+  const cell = grid.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+  if (!cell) return;
+
+  const hasShip = board.grid[row][col] !== null;
+  const isHit = board.hitAttacks.some(([r, c]) => r === row && c === col);
+  const isMiss = board.missedAttacks.some(([r, c]) => r === row && c === col);
+
+  cell.classList.remove("ship", "hit", "miss");
+
+  if (hasShip && !hideShips) cell.classList.add("ship");
+  if (isHit) cell.classList.add("hit");
+  if (isMiss) cell.classList.add("miss");
+}
