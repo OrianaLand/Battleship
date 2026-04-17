@@ -22,7 +22,9 @@ function createCell(row, col, board) {
   const cellData = board.grid[row][col]; // ship object or null cell
   const hasShip = cellData !== null;
   const isHit = board.hitAttacks.some(([r, c]) => r === row && c === col);
+  const isMiss = board.missedAttacks.some(([r, c]) => r === row && c === col);
 
+  if (isMiss) cell.classList.add("miss");
   if (hasShip) {
     cell.classList.add("ship");
     if (isHit) {
