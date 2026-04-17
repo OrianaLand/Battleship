@@ -29,3 +29,4 @@ console.log(game.cpu.gameboard.grid);
  */
 
 createBoardGrid(game.human.gameboard);
+createBoardGrid(game.cpu.gameboard);

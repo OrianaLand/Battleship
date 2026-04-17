@@ -42,6 +42,7 @@ body {
     border: 1px solid green;
     height: 20em;
     width: 20em;
+    margin-bottom: 1.5rem;
 }
 
 .cell{
@@ -51,4 +52,4 @@ body {
 }
 .ship{
     background-color: goldenrod;
-}
+} 

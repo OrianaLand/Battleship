@@ -1,4 +1,4 @@
-export function createBoardGrid(board) {
+export function createBoardGrid(board, container) {
   const grid = document.createElement("div");
 
   grid.className = "grid";
@@ -8,7 +8,8 @@ export function createBoardGrid(board) {
       grid.appendChild(cell);
     }
   }
-  document.body.appendChild(grid);
+  container.appendChild(grid);
+  return grid;
 }
 
 function createCell(row, col, board) {
