@@ -24,7 +24,33 @@ export class GameController {
 
     this.humanGrid = createBoardGrid(this.game.human.gameboard, humanContainer);
     this.cpuGrid = createBoardGrid(this.game.cpu.gameboard, cpuContainer);
+
+    this.#attachCPUBoardListener();
   }
 
   //handle human attack on cpu grid
+  #attachCPUBoardListener() {
+    this.cpuGrid.addEventListener("click", (e) => {
+      const cell = e.target.closest(".cell");
+
+      const row = parseInt(cell.dataset.row);
+      const col = parseInt(cell.dataset.col);
+
+      this.#handleHumanAttack(row, col);
+    });
+  }
+
+  #handleHumanAttack(row, col) {
+    if (this.game.state !== "playing" || this.game.currentTurn !== "human")
+      return;
+
+    try {
+      const result = this.game.humanAttack(row, col);
+      updateCell(this.cpuGrid, this.game.cpu.gameboard, row, col, true);
+      console.log(`Human attacked (${row}, ${col}): ${result}`);
+      console.log(`Current turn: ${this.game.currentTurn}`);
+    } catch (e) {
+      console.warn(e.message); // already attacked this cell
+    }
+  }
 }
