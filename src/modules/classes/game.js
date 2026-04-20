@@ -46,7 +46,7 @@ export class Game {
     const result = this.human.attack(this.cpu.gameboard, row, col);
     this.#checkForWinner();
 
-    if (this.state === "playing") this.currentTurn = "cpu";
+    if (this.state === "playing" && result === "miss") this.currentTurn = "cpu";
     return result;
   }
 
@@ -57,7 +57,8 @@ export class Game {
     const result = this.cpu.randomAttack(this.human.gameboard);
     this.#checkForWinner();
 
-    if (this.state === "playing") this.currentTurn = "human";
+    if (this.state === "playing" && result.result === "miss")
+      this.currentTurn = "human";
     return result;
   }
 

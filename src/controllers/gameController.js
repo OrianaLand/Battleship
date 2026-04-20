@@ -49,11 +49,15 @@ export class GameController {
       updateCell(this.cpuGrid, this.game.cpu.gameboard, row, col, true);
       console.log(`Human attacked (${row}, ${col}): ${result}`);
       console.log(`Current turn: ${this.game.currentTurn}`);
+
+      if (result === "miss" && this.game.state === "playing")
+        this.#handleCpuAttack();
+      if (this.game.state === "over") {
+        console.log(`Game over! Winner: ${this.game.winner}`);
+      }
     } catch (e) {
       console.warn(e.message); // already attacked this cell
     }
-
-    this.#handleCpuAttack();
   }
 
   #handleCpuAttack() {
@@ -66,6 +70,10 @@ export class GameController {
 
     if (this.game.state === "over") {
       console.log(`Game over! Winner: ${this.game.winner}`);
+    }
+
+    if (result === "hit") {
+      this.#handleCpuAttack(); // CPU gets another turn
     }
   }
 }
