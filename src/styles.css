@@ -57,3 +57,7 @@ body {
 .hit{
     background-color: rgba(162, 126, 34, 0.612);
 }
+
+.miss{
+    background-color: rgb(27, 27, 46);
+}
