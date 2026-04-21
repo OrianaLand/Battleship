@@ -24,7 +24,7 @@ function createCell(row, col, board, hiddenShips) {
   const isHit = board.hitAttacks.some(([r, c]) => r === row && c === col);
   const isMiss = board.missedAttacks.some(([r, c]) => r === row && c === col);
 
-  if (hasShip && !hiddenShips) cell.classList.add("ship");
+  if (hasShip && (!hiddenShips || isHit)) cell.classList.add("ship");
   if (isHit) cell.classList.add("hit");
   if (isMiss) cell.classList.add("miss");
 
@@ -41,7 +41,7 @@ export function updateCell(grid, board, row, col, hideShips = false) {
 
   cell.classList.remove("ship", "hit", "miss");
 
-  if (hasShip && !hideShips) cell.classList.add("ship");
+  if (hasShip && (!hideShips || isHit)) cell.classList.add("ship");
   if (isHit) cell.classList.add("hit");
   if (isMiss) cell.classList.add("miss");
 }
