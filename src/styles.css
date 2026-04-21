@@ -53,3 +53,7 @@ body {
 .ship{
     background-color: goldenrod;
 } 
+
+.hit{
+    background-color: rgba(162, 126, 34, 0.612);
+}
