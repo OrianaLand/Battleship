@@ -64,7 +64,7 @@ export class GameController {
     if (this.game.state !== "playing") return;
 
     const { row, col, result } = this.game.cpuAttack();
-    updateCell(this.humanGrid, this.game.human.gameboard, row, col, true);
+    updateCell(this.humanGrid, this.game.human.gameboard, row, col);
     console.log(`CPU attacked (${row}, ${col}): ${result}`);
     console.log(`Current turn: ${this.game.currentTurn}`);
 
