@@ -41,7 +41,32 @@ export class Gameboard {
       if (checkRow >= this.size || checkCol >= this.size) return false; // Check bounds
       if (this.grid[checkRow][checkCol] !== null) return false; // Check if cell is already occupied
     }
-    return true;
+    return !this.#hasAdjacentShip(ship, row, col, orientation);
+  }
+
+  #hasAdjacentShip(ship, row, col, orientation) {
+    const cells = [];
+
+    for (let i = 0; i < ship.getLength(); i++) {
+      const r = orientation === "H" ? row : row + i;
+      const c = orientation === "H" ? col + i : col;
+      cells.push([r, c]);
+    }
+
+    for (const [r, c] of cells) {
+      for (let dr = -1; dr <= 1; dr++) {
+        for (let dc = -1; dc <= 1; dc++) {
+          const nr = r + dr;
+          const nc = c + dc;
+
+          if (nr < 0 || nr >= this.size || nc < 0 || nc >= this.size) continue; // continue if out of bounds
+          if (cells.some(([sr, sc]) => sr === nr && sc === nc)) continue; // skip own cells
+          if (this.grid[nr][nc] !== null) return true; // if neighbor cell has a ship placement gets rejected
+        }
+      }
+    }
+
+    return false;
   }
 
   receiveAttack(row, col) {
