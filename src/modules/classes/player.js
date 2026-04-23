@@ -46,6 +46,13 @@ export class Player {
       this.#addAdjacentCells(row, col, opponentGameboard.size);
     }
 
+    const attackedShip = opponentGameboard.grid[row][col];
+
+    if (attackedShip && attackedShip.isSunk()) {
+      this.mode = "hunt";
+      this.targetQueue = []; // clear remaining neighbors, ship is already sunk
+    }
+
     if (opponentGameboard.allShipsSunk()) {
       this.mode = "hunt"; // reset just in case
     }
