@@ -4,7 +4,7 @@ export class Player {
     this.type = type;
     this.gameboard = new Gameboard();
     this.attacks = [];
-    this.difficulty = "sailor"; // sailor(random/easy) | captain(uses hunt-target) | admiral(oriantation-aware)
+    this.difficulty = "admiral"; // sailor(random/easy) | captain(uses hunt-target) | admiral(oriantation-aware)
     this.mode = "hunt"; // Hunt/Target state for Computer player
     this.targetQueue = []; // Adjacent pending cells to try in target mode
     this.lastHit = null; // first hit on a ship

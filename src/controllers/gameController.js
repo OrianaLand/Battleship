@@ -1,12 +1,15 @@
 import { createBoardGrid, updateCell } from "../dom/renderBoard";
 import { Game } from "../modules/classes/game";
 import { Ship } from "../modules/classes/ship";
+import { StatusView } from "../views/statusView";
 export class GameController {
   constructor() {
     this.game = new Game();
     this.humanGrid = null;
     this.cpuGrid = null;
     this.views = [];
+    this.message = new StatusView(document.querySelector("#message"));
+    this.currentTurn = new StatusView(document.querySelector("#current-turn"));
   }
 
   // initialize
@@ -50,6 +53,9 @@ export class GameController {
       console.log(`Human attacked (${row}, ${col}): ${result}`);
       console.log(`Current turn: ${this.game.currentTurn}`);
 
+      this.message.update(`Human attacked (${row}, ${col}): ${result}`);
+      this.currentTurn.update(`Current turn: ${this.game.currentTurn}`);
+
       if (result === "miss" && this.game.state === "playing")
         this.#handleCpuAttack();
       if (this.game.state === "over") {
@@ -68,8 +74,13 @@ export class GameController {
     console.log(`CPU attacked (${row}, ${col}): ${result}`);
     console.log(`Current turn: ${this.game.currentTurn}`);
 
+    this.message.update(`CPU attacked (${row}, ${col}): ${result}`);
+    this.currentTurn.update(`Current turn: ${this.game.currentTurn}`);
+
     if (this.game.state === "over") {
       console.log(`Game over! Winner: ${this.game.winner}`);
+
+      this.statusView.update(`Game over! ${this.game.winner} wins!`);
     }
 
     if (result === "hit") {
