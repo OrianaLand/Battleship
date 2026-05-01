@@ -3,6 +3,7 @@ import { Game } from "../modules/classes/game";
 import { Ship } from "../modules/classes/ship";
 import { StatusView } from "../views/statusView";
 export class GameController {
+  #cpuThinking = false;
   constructor() {
     this.game = new Game();
     this.humanGrid = null;
@@ -56,8 +57,13 @@ export class GameController {
       this.message.update(`Human attacked (${row}, ${col}): ${result}`);
       this.currentTurn.update(`Current turn: ${this.game.currentTurn}`);
 
-      if (result === "miss" && this.game.state === "playing")
-        this.#handleCpuAttack();
+      if (result === "miss" && this.game.state === "playing") {
+        this.#cpuThinking = true;
+        this.#handleCpuAttack().finally(() => {
+          this.#cpuThinking = false;
+        });
+      }
+
       if (this.game.state === "over") {
         console.log(`Game over! Winner: ${this.game.winner}`);
       }
@@ -66,8 +72,10 @@ export class GameController {
     }
   }
 
-  #handleCpuAttack() {
+  async #handleCpuAttack() {
     if (this.game.state !== "playing") return;
+
+    await this.#sleep(1500);
 
     const { row, col, result } = this.game.cpuAttack();
     updateCell(this.humanGrid, this.game.human.gameboard, row, col);
@@ -80,11 +88,16 @@ export class GameController {
     if (this.game.state === "over") {
       console.log(`Game over! Winner: ${this.game.winner}`);
 
-      this.statusView.update(`Game over! ${this.game.winner} wins!`);
+      this.message.update(`Game over! ${this.game.winner} wins!`);
+      this.currentTurn.clear();
     }
 
     if (result === "hit") {
-      this.#handleCpuAttack(); // CPU gets another turn
+      await this.#handleCpuAttack(); // CPU gets another turn
     }
+  }
+
+  #sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
