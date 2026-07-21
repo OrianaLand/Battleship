@@ -7,8 +7,6 @@ export class GameController {
   #cpuThinking = false;
   constructor() {
     this.game = new Game();
-    this.humanGrid = null;
-    this.cpuGrid = null;
     this.views = [];
     this.message = new StatusView(document.querySelector("#message"));
     this.currentTurn = new StatusView(document.querySelector("#current-turn"));
@@ -70,6 +68,9 @@ export class GameController {
 
       if (this.game.state === "over") {
         console.log(`Game over! Winner: ${this.game.winner}`);
+
+        this.message.update(`Game over! ${this.game.winner} wins!`);
+        this.currentTurn.clear();
       }
     } catch (e) {
       console.warn(e.message); // already attacked this cell
