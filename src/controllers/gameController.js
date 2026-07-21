@@ -2,6 +2,7 @@ import { createBoardGrid, updateCell } from "../dom/renderBoard";
 import { Game } from "../modules/classes/game";
 import { Ship } from "../modules/classes/ship";
 import { StatusView } from "../views/statusView";
+import { GameBoardView } from "../views/GameBoardView";
 export class GameController {
   #cpuThinking = false;
   constructor() {
@@ -26,10 +27,13 @@ export class GameController {
     const humanContainer = document.querySelector("#human-board");
     const cpuContainer = document.querySelector("#cpu-board");
 
-    this.humanGrid = createBoardGrid(this.game.human.gameboard, humanContainer);
-    this.cpuGrid = createBoardGrid(this.game.cpu.gameboard, cpuContainer);
+    this.humanBoardView = new GameBoardView(humanContainer);
+    this.cpuBoardView = new GameBoardView(cpuContainer, true, (row, col) => {
+      this.#handleHumanAttack(row, col);
+    });
 
-    this.#attachCPUBoardListener();
+    this.humanBoardView.render(this.game.human.gameboard);
+    this.cpuBoardView.render(this.game.cpu.gameboard);
   }
 
   //handle human attack on cpu grid
@@ -50,7 +54,7 @@ export class GameController {
 
     try {
       const result = this.game.humanAttack(row, col);
-      updateCell(this.cpuGrid, this.game.cpu.gameboard, row, col, true);
+      this.cpuBoardView.update(row, col);
       console.log(`Human attacked (${row}, ${col}): ${result}`);
       console.log(`Current turn: ${this.game.currentTurn}`);
 
@@ -78,7 +82,7 @@ export class GameController {
     await this.#sleep(1500);
 
     const { row, col, result } = this.game.cpuAttack();
-    updateCell(this.humanGrid, this.game.human.gameboard, row, col);
+    this.humanBoardView.update(row, col);
     console.log(`CPU attacked (${row}, ${col}): ${result}`);
     console.log(`Current turn: ${this.game.currentTurn}`);
 
