@@ -37,7 +37,7 @@ export class GameView {
   }
 
   showGameOver(winner) {
-    this.message.update("Game over! ${winner} wins!");
+    this.message.update(`Game over! ${winner} wins!`);
     this.currentTurn.clear();
   }
 }
