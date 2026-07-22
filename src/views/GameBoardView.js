@@ -4,7 +4,7 @@ export class GameBoardView {
   #grid = null;
   #hideShips;
   #onCellClick;
-  board = null; // ← Add this
+  board = null;
   container;
 
   constructor(container, hideShips = false, onCellClick = null) {
