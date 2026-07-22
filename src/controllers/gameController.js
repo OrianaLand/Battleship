@@ -3,18 +3,21 @@ import { Game } from "../modules/classes/game";
 import { Ship } from "../modules/classes/ship";
 import { StatusView } from "../views/statusView";
 import { GameBoardView } from "../views/GameBoardView";
+import { GameView } from "../views/gameView";
+
 export class GameController {
   #cpuThinking = false;
   constructor() {
     this.game = new Game();
-    this.views = [];
-    this.message = new StatusView(document.querySelector("#message"));
-    this.currentTurn = new StatusView(document.querySelector("#current-turn"));
+    this.gameView = new GameView((row, col) =>
+      this.#handleHumanAttack(row, col),
+    );
   }
 
   // initialize
   init() {
     this.#setupPhase();
+    console.log("called init???");
   }
 
   #setupPhase() {
@@ -25,24 +28,21 @@ export class GameController {
     this.game.placeHumanShip(new Ship(2), 2, 8, "H");
 
     this.#startGame();
+    console.log("called setupPhase");
   }
 
   #startGame() {
+    console.log("called startgame");
     this.game.startGame();
     this.#initViews();
   }
 
   #initViews() {
-    const humanContainer = document.querySelector("#human-board");
-    const cpuContainer = document.querySelector("#cpu-board");
-
-    this.humanBoardView = new GameBoardView(humanContainer);
-    this.cpuBoardView = new GameBoardView(cpuContainer, true, (row, col) => {
-      this.#handleHumanAttack(row, col);
-    });
-
-    this.humanBoardView.render(this.game.human.gameboard);
-    this.cpuBoardView.render(this.game.cpu.gameboard);
+    this.gameView.renderBoards(
+      this.game.human.gameboard,
+      this.game.cpu.gameboard,
+    );
+    console.log("called gameView");
   }
 
   //handle human attack on cpu grid
@@ -60,15 +60,21 @@ export class GameController {
   #handleHumanAttack(row, col) {
     if (this.game.state !== "playing" || this.game.currentTurn !== "human")
       return;
+    if (this.#cpuThinking) return;
 
     try {
       const result = this.game.humanAttack(row, col);
-      this.cpuBoardView.update(row, col);
+      this.gameView.updateCpuBoard(row, col);
+      this.gameView.setMessage(`You attacked (${row}, ${col}): ${result}`);
+      this.gameView.setTurn(`Current turn: ${this.game.currentTurn}`);
       console.log(`Human attacked (${row}, ${col}): ${result}`);
       console.log(`Current turn: ${this.game.currentTurn}`);
 
-      this.message.update(`Human attacked (${row}, ${col}): ${result}`);
-      this.currentTurn.update(`Current turn: ${this.game.currentTurn}`);
+      if (this.game.state === "over") {
+        console.log(`Game over! Winner: ${this.game.winner}`);
+        this.gameView.showGameOver(this.game.winner);
+        return;
+      }
 
       if (result === "miss" && this.game.state === "playing") {
         this.#cpuThinking = true;
@@ -76,15 +82,8 @@ export class GameController {
           this.#cpuThinking = false;
         });
       }
-
-      if (this.game.state === "over") {
-        console.log(`Game over! Winner: ${this.game.winner}`);
-
-        this.message.update(`Game over! ${this.game.winner} wins!`);
-        this.currentTurn.clear();
-      }
     } catch (e) {
-      console.warn(e.message); // already attacked this cell
+      console.warn(e.message);
     }
   }
 
@@ -94,18 +93,18 @@ export class GameController {
     await this.#sleep(1500);
 
     const { row, col, result } = this.game.cpuAttack();
-    this.humanBoardView.update(row, col);
+    this.gameView.updateCpuBoard(row, col);
+    this.gameView.setMessage(`CPU attacked (${row}, ${col}): ${result}`);
+    this.gameView.setTurn(`Current turn: ${this.game.currentTurn}`);
+
     console.log(`CPU attacked (${row}, ${col}): ${result}`);
     console.log(`Current turn: ${this.game.currentTurn}`);
-
-    this.message.update(`CPU attacked (${row}, ${col}): ${result}`);
-    this.currentTurn.update(`Current turn: ${this.game.currentTurn}`);
 
     if (this.game.state === "over") {
       console.log(`Game over! Winner: ${this.game.winner}`);
 
-      this.message.update(`Game over! ${this.game.winner} wins!`);
-      this.currentTurn.clear();
+      this.gameView.showGameOver(this.game.winner);
+      return;
     }
 
     if (result === "hit") {
