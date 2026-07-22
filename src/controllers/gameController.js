@@ -93,7 +93,7 @@ export class GameController {
     await this.#sleep(1500);
 
     const { row, col, result } = this.game.cpuAttack();
-    this.gameView.updateCpuBoard(row, col);
+    this.gameView.updateHumanBoard(row, col);
     this.gameView.setMessage(`CPU attacked (${row}, ${col}): ${result}`);
     this.gameView.setTurn(`Current turn: ${this.game.currentTurn}`);
 
