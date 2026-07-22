@@ -2,14 +2,14 @@ import { GameBoardView } from "./GameBoardView";
 import { StatusView } from "./statusView";
 
 export class GameView {
-  constructor(onCellclick) {
+  constructor(onCellClick) {
     this.humanBoardView = new GameBoardView(
       document.querySelector("#human-board"),
     );
     this.cpuBoardView = new GameBoardView(
       document.querySelector("#cpu-board"),
       true,
-      oneCellClick,
+      onCellClick,
     );
     this.message = new StatusView(document.querySelector("#message"));
     this.currentTurn = new StatusView(document.querySelector("#current-turn"));
@@ -20,11 +20,11 @@ export class GameView {
     this.cpuBoardView.render(cpuBoard);
   }
 
-  updateHumanBoard() {
+  updateHumanBoard(row, col) {
     this.humanBoardView.update(row, col);
   }
 
-  updateCpuBoard() {
+  updateCpuBoard(row, col) {
     this.cpuBoardView.update(row, col);
   }
 
