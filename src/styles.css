@@ -27,7 +27,8 @@ a {
     list-style: none;
     text-decoration: none;
 }
-.works{
+
+.works {
     color: olivedrab;
 }
 
@@ -35,7 +36,7 @@ body {
     background-color: rgb(39, 39, 79);
 }
 
-.grid{
+.grid {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
@@ -45,24 +46,33 @@ body {
     margin-bottom: 1.5rem;
 }
 
-.cell{
+.cell {
     border: 1px solid white;
     height: 2em;
-    width:   2em;
+    width: 2em;
 }
-.ship{
-    background-color: goldenrod;
-} 
 
-.hit{
+.ship {
+    background-color: goldenrod;
+}
+
+.hit {
     background-color: rgba(162, 126, 34, 0.612);
 }
 
-.miss{
+.miss {
     background-color: rgb(27, 27, 46);
 }
 
-#status{
+#status {
     color: bisque;
     font-size: 2em;
+}
+
+.preview-valid {
+    background-color: lightgreen;
+}
+
+.preview-invalid {
+    background-color: lightcoral;
 }
