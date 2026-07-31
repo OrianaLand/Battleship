@@ -4,6 +4,7 @@ import { Ship } from "../modules/classes/ship";
 import { StatusView } from "../views/statusView";
 import { GameBoardView } from "../views/GameBoardView";
 import { GameView } from "../views/gameView";
+import { SetupView } from "../views/SetupView";
 
 export class GameController {
   #cpuThinking = false;
@@ -21,13 +22,27 @@ export class GameController {
   }
 
   #setupPhase() {
-    this.game.placeHumanShip(new Ship(5), 0, 0, "H");
-    this.game.placeHumanShip(new Ship(4), 2, 0, "V");
-    this.game.placeHumanShip(new Ship(3), 4, 5, "V");
-    this.game.placeHumanShip(new Ship(3), 8, 2, "H");
-    this.game.placeHumanShip(new Ship(2), 2, 8, "H");
+    const ships = [
+    new Ship(5),
+    new Ship(4),
+    new Ship(3),
+    new Ship(3),
+    new Ship(2),
+  ];
 
+  const humanBoardContainer = document.querySelector("#human-board");
+  const onShipPlaced = (ship, row, col, orientation) => {
+    const placed = this.game.placeHumanShip(ship, row, col, orientation);
+    return placed;
+  }
+  const onComplete = () => {
+    this.setupView.clear();
     this.#startGame();
+  }
+
+  this.setupView = new SetupView(humanBoardContainer, onShipPlaced, onComplete);
+
+  this.setupView.render(this.game.human.gameboard, ships);
     console.log("called setupPhase");
   }
 
