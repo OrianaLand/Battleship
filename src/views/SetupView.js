@@ -13,6 +13,7 @@ export class SetupView {
     #onComplete;
     #lastRow = null;
     #lastCol = null;
+    #dragging = false;
 
     constructor(container, onShipPlaced, onComplete){
         this.container = container;
@@ -38,7 +39,45 @@ export class SetupView {
         for(const ship of ships){
             const btn = document.createElement("button");
             btn.textContent = `Ship (${ship.getLength()})`;
-            btn.addEventListener("click", () => this.#selectShip(ship, btn));
+
+
+            btn.addEventListener("pointerdown", (e) => {
+                this.#selectShip(ship, btn);
+                btn.setPointerCapture(e.pointerId)
+                this.#dragging = true;
+            });
+
+            btn.addEventListener("pointerup", (e)=>{
+                const element = document.elementFromPoint(e.clientX, e.clientY);
+                const cell = element?.closest(".cell")
+                this.#dragging = false;
+
+                if(cell){
+                    const row = parseInt(cell.dataset.row);
+                    const col = parseInt(cell.dataset.col);
+                    this.#placeShip(row, col);
+                }
+
+                this.#deselect();
+            })
+
+            btn.addEventListener("pointermove", (e) =>{
+                if(this.#dragging){
+                    const element = document.elementFromPoint(e.clientX, e.clientY);
+                    const cell = element?.closest(".cell");
+
+                    if(cell){
+                        this.#lastRow = parseInt(cell.dataset.row);
+                        this.#lastCol = parseInt(cell.dataset.col);
+                        
+                        this.#showPreview(this.#lastRow, this.#lastCol);
+                    }else{
+                        this.#lastRow = null;
+                        this.#lastCol = null;
+                        this.#clearPreview();  
+                    }
+                }
+            })
             list.appendChild(btn);
         }
 
@@ -52,6 +91,15 @@ export class SetupView {
         btn.classList.add("selected");
         this.#selectedShip = ship;
         this.#selectedBtn = btn;
+    }
+
+    #deselect(){
+        if(this.#selectedBtn){
+            this.#selectedBtn.classList.remove("selected");
+            this.#selectedShip = null;
+            this.#selectedBtn = null;
+            this.#clearPreview();
+        }
     }
 
     // ---- Orientation --- //

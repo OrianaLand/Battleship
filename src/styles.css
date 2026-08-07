@@ -76,3 +76,7 @@ body {
 .preview-invalid {
     background-color: lightcoral;
 }
+
+.ship-list button {
+    touch-action: none;
+}
