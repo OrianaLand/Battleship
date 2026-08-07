@@ -1,5 +1,5 @@
 import { GameBoardView } from "./GameBoardView";
-import { StatusView } from "./statusView";
+import { StatusView } from "./StatusView";
 
 export class GameView {
   constructor(onCellClick) {

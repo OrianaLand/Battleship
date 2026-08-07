@@ -1,10 +1,10 @@
-import { Game } from "../classes/game";
-import { Player } from "../classes/player";
-import { Ship } from "../classes/ship";
+import { Game } from "../classes/Game";
+import { Player } from "../classes/Player";
+import { Ship } from "../classes/Ship";
 
 // Mock the randomAttack method to make CPU behavior predictable in tests
-jest.mock("../classes/player", () => {
-  const originalModule = jest.requireActual("../classes/player");
+jest.mock("../classes/Player", () => {
+  const originalModule = jest.requireActual("../classes/Player");
   return {
     ...originalModule,
     Player: jest.fn().mockImplementation((type) => {

@@ -1,4 +1,4 @@
-import { Ship } from "../classes/ship";
+import { Ship } from "../classes/Ship";
 
 describe("Ship", () => {
   let ship;

@@ -1,5 +1,5 @@
-import { Ship } from "./ship";
-import { Player } from "./player";
+import { Ship } from "./Ship";
+import { Player } from "./Player";
 
 export class Game {
   constructor() {

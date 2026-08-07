@@ -1,6 +1,6 @@
-import { Game } from "../modules/classes/game";
-import { Ship } from "../modules/classes/ship";
-import { GameView } from "../views/gameView";
+import { Game } from "../modules/classes/Game";
+import { Ship } from "../modules/classes/Ship";
+import { GameView } from "../views/GameView";
 import { SetupView } from "../views/SetupView";
 
 export class GameController {
