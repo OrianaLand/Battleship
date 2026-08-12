@@ -38,7 +38,7 @@ export class GameController {
     new Ship(2),
   ];
 
-  this.placeShipsRandomlyBtn.disabled = false;
+  this.placeShipsRandomlyBtn.style.display = "";
   
   this.resetGameBtn.textContent = "Reset game";
 
@@ -59,7 +59,7 @@ export class GameController {
 
   #startGame() {
     this.game.startGame();
-    this.placeShipsRandomlyBtn.disabled = true;
+    this.placeShipsRandomlyBtn.style.display = "none";
     this.#initViews();
   }
 
