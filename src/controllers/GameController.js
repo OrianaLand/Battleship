@@ -39,6 +39,8 @@ export class GameController {
   ];
 
   this.placeShipsRandomlyBtn.disabled = false;
+  
+  this.resetGameBtn.textContent = "Reset game";
 
   const humanBoardContainer = document.querySelector("#human-board");
   const onShipPlaced = (ship, row, col, orientation) => {
@@ -80,7 +82,7 @@ export class GameController {
       this.gameView.setTurn(`Current turn: ${this.game.currentTurn}`);
 
       if (this.game.state === "over") {
-        this.gameView.showGameOver(this.game.winner);
+        this.#handleGameOver();
         return;
       }
 
@@ -98,7 +100,7 @@ export class GameController {
   async #handleCpuAttack() {
     if (this.game.state !== "playing") return;
 
-    await this.#sleep(1500);
+    await this.#sleep(1000);
 
     if (this.game.state !== "playing") return;
 
@@ -110,13 +112,18 @@ export class GameController {
 
     if (this.game.state === "over") {
 
-      this.gameView.showGameOver(this.game.winner);
+      this.#handleGameOver();
       return;
     }
 
     if (result === "hit") {
       await this.#handleCpuAttack(); // CPU gets another turn
     }
+  }
+
+  #handleGameOver(){
+    this.gameView.showGameOver(this.game.winner);
+    this.resetGameBtn.textContent = "Play again";
   }
 
   #sleep(ms) {
