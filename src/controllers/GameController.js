@@ -15,6 +15,13 @@ export class GameController {
     this.resetGameBtn.addEventListener("click", ()=>{ 
       this.reset();
     });
+
+    this.placeShipsRandomlyBtn = document.querySelector("#random-btn");
+
+    this.placeShipsRandomlyBtn.addEventListener("click", () =>{
+      this.reset();
+      this.setupView.placeHumanShipsRandomly();
+    })
   }
 
   // initialize
@@ -30,6 +37,8 @@ export class GameController {
     new Ship(3),
     new Ship(2),
   ];
+
+  this.placeShipsRandomlyBtn.disabled = false;
 
   const humanBoardContainer = document.querySelector("#human-board");
   const onShipPlaced = (ship, row, col, orientation) => {
@@ -48,6 +57,7 @@ export class GameController {
 
   #startGame() {
     this.game.startGame();
+    this.placeShipsRandomlyBtn.disabled = true;
     this.#initViews();
   }
 

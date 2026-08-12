@@ -228,6 +228,20 @@ export class SetupView {
         if(btn) btn.remove();
     }
 
+    placeHumanShipsRandomly(){
+        for (const ship of this.#ships){
+            let placed = false;
+            while (!placed){
+                const row = Math.floor(Math.random() * this.#board.size);
+                const col = Math.floor(Math.random() * this.#board.size);
+                const orientation = Math.random() < 0.5 ? "H" : "V";
+                placed = this.#onShipPlaced(ship, row, col, orientation);
+            }
+        }
+
+        this.#onComplete();
+    }
+
     clear(){
         this.container.innerHTML = '';
     }
