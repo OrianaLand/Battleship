@@ -10,6 +10,11 @@ export class GameController {
     this.gameView = new GameView((row, col) =>
       this.#handleHumanAttack(row, col),
     );
+    this.resetGameBtn = document.querySelector("#reset-btn");
+
+    this.resetGameBtn.addEventListener("click", ()=>{ 
+      this.reset();
+    });
   }
 
   // initialize
@@ -85,6 +90,8 @@ export class GameController {
 
     await this.#sleep(1500);
 
+    if (this.game.state !== "playing") return;
+
     const { row, col, result } = this.game.cpuAttack();
     this.gameView.updateHumanBoard(row, col);
     this.gameView.setMessage(`CPU attacked (${row}, ${col}): ${result}`);
@@ -104,5 +111,20 @@ export class GameController {
 
   #sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  reset(){
+    this.setupView.clear()
+
+    const cpuBoardContainer = document.querySelector("#cpu-board");
+
+    cpuBoardContainer.innerHTML = "";
+
+    this.gameView.setMessage("");
+    this.gameView.setTurn("");
+
+    this.game = new Game();
+    this.#cpuThinking = false;
+    this.#setupPhase();
   }
 }
