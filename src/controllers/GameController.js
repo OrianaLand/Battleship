@@ -22,6 +22,19 @@ export class GameController {
       this.reset();
       this.setupView.placeHumanShipsRandomly();
     })
+
+    this.difficultyButtons = document.querySelector("#difficulty-buttons"); // buttons container
+    this.difficultyBtnList = document.querySelectorAll("#difficulty-buttons button"); // buttons list
+    this.difficultyLabel = document.querySelector("#difficulty-label");
+    this.difficulty = "captain" // default
+
+    for (const btn of this.difficultyBtnList){
+      btn.addEventListener("click", () => {
+        this.difficulty = btn.dataset.difficulty;
+        this.difficultyBtnList.forEach(b => b.classList.remove("active"));  
+        btn.classList.add("active");
+      });
+    }
   }
 
   // initialize
@@ -39,6 +52,8 @@ export class GameController {
   ];
 
   this.placeShipsRandomlyBtn.style.display = "";
+  this.difficultyButtons.style.display = "";
+  this.difficultyLabel.textContent = "Choose difficulty";
   
   this.resetGameBtn.textContent = "Reset game";
 
@@ -60,6 +75,9 @@ export class GameController {
   #startGame() {
     this.game.startGame();
     this.placeShipsRandomlyBtn.style.display = "none";
+    this.game.cpu.difficulty = this.difficulty;
+    this.difficultyButtons.style.display = "none";
+    this.difficultyLabel.textContent = `Difficulty: ${this.difficulty[0].toUpperCase() + this.difficulty.slice(1)}`;
     this.#initViews();
   }
 

@@ -80,3 +80,7 @@ body {
 .ship-list button {
     touch-action: none;
 }
+
+.active {
+    background-color: brown;
+}
