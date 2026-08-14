@@ -10,14 +10,13 @@ export class GameController {
     this.gameView = new GameView((row, col) =>
       this.#handleHumanAttack(row, col),
     );
-    this.resetGameBtn = document.querySelector("#reset-btn");
 
+    this.resetGameBtn = document.querySelector("#reset-btn");
     this.resetGameBtn.addEventListener("click", ()=>{ 
       this.reset();
     });
 
     this.placeShipsRandomlyBtn = document.querySelector("#random-btn");
-
     this.placeShipsRandomlyBtn.addEventListener("click", () =>{
       this.reset();
       this.setupView.placeHumanShipsRandomly();
@@ -26,7 +25,7 @@ export class GameController {
     this.difficultyButtons = document.querySelector("#difficulty-buttons"); // buttons container
     this.difficultyBtnList = document.querySelectorAll("#difficulty-buttons button"); // buttons list
     this.difficultyLabel = document.querySelector("#difficulty-label");
-    this.difficulty = "captain" // default
+    this.difficulty = null;
 
     for (const btn of this.difficultyBtnList){
       btn.addEventListener("click", () => {
@@ -35,6 +34,15 @@ export class GameController {
         btn.classList.add("active");
       });
     }
+
+    this.confirmBtn = document.querySelector("#confirm-btn");
+    this.confirmBtn.addEventListener("click", ()=>{
+      if (!this.difficulty) {
+        this.gameView.setMessage("You must choose a difficulty");
+        return;   
+        }
+      this.#startGame();
+    })
   }
 
   // initialize
@@ -64,12 +72,17 @@ export class GameController {
   }
   const onComplete = () => {
     this.setupView.clear();
-    this.#startGame();
+    this.#initViews();
+    this.placeShipsRandomlyBtn.style.display = "none";
+    this.confirmBtn.disabled = false;
   }
 
   this.setupView = new SetupView(humanBoardContainer, onShipPlaced, onComplete);
 
   this.setupView.render(this.game.human.gameboard, ships);
+
+  this.confirmBtn.disabled = true;
+  this.confirmBtn.style.display = "";
   }
 
   #startGame() {
@@ -78,7 +91,8 @@ export class GameController {
     this.game.cpu.difficulty = this.difficulty;
     this.difficultyButtons.style.display = "none";
     this.difficultyLabel.textContent = `Difficulty: ${this.difficulty[0].toUpperCase() + this.difficulty.slice(1)}`;
-    this.#initViews();
+    this.confirmBtn.style.display = "none";
+    this.gameView.setMessage("Game started — your turn");                    
   }
 
   #initViews() {
