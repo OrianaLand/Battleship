@@ -14,9 +14,13 @@ export class SetupView {
     #lastRow = null;
     #lastCol = null;
     #dragging = false;
+    #shipListContainer;
+    #toolsContainer;
 
-    constructor(container, onShipPlaced, onComplete){
+    constructor(container, shipListContainer, toolsContainer, onShipPlaced, onComplete){
         this.container = container;
+        this.#shipListContainer = shipListContainer;
+        this.#toolsContainer = toolsContainer;
         this.#onShipPlaced = onShipPlaced;
         this.#onComplete = onComplete;
     }
@@ -81,7 +85,7 @@ export class SetupView {
             list.appendChild(btn);
         }
 
-        this.container.appendChild(list);
+        this.#shipListContainer.appendChild(list);
     }
 
     #selectShip(ship, btn){
@@ -107,15 +111,15 @@ export class SetupView {
     #renderRotateButton(){
         const btn = document.createElement("button");
         btn.id = "rotate-btn";
-        btn.textContent = `Orientation: ${this.#orientation}`;
+        btn.textContent = `${this.#orientation}`;
         btn.addEventListener("click", () => this.#toggleOrientation());
-        this.container.appendChild(btn);
+        this.#toolsContainer.appendChild(btn);
         this.#rotateBtn = btn;
     }
 
     #toggleOrientation (){
         this.#orientation = this.#orientation === 'H' ? 'V' : 'H';
-        this.#rotateBtn.textContent = `Orientation: ${this.#orientation}`;
+        this.#rotateBtn.textContent = `${this.#orientation}`;
         this.#clearPreview();
         if(this.#lastRow === null && this.#lastCol === null) return;
         this.#showPreview(this.#lastRow, this.#lastCol);
@@ -244,5 +248,7 @@ export class SetupView {
 
     clear(){
         this.container.innerHTML = '';
+        this.#shipListContainer.innerHTML = '';
+        this.#rotateBtn?.remove();
     }
 }

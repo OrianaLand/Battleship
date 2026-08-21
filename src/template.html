@@ -4,33 +4,50 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Batteship</title>
+    <title>Battleship</title>
   </head>
   <body>
-    <div id="difficulty">
-      <p id="difficulty-label">Choose difficulty</p>
-      <div id="difficulty-buttons">
-        <button data-difficulty="sailor">Sailor</button>
-        <button data-difficulty="captain">Captain</button>
-        <button data-difficulty="admiral">Admiral</button>
+    <main>
+      <div id="app">
+        <div id="wrapper">
+          <header>
+            <h1>Battleship</h1>
+          </header>
+          <section id="status">
+            <div id="message"></div>
+            <div id="current-turn"></div>
+          </section>
+          <section class="setup-container">
+            <div id="difficulty">
+              <p id="difficulty-label">Choose difficulty</p>
+              <div id="difficulty-buttons">
+                <button data-difficulty="sailor">Sailor</button>
+                <button data-difficulty="captain">Captain</button>
+                <button data-difficulty="admiral">Admiral</button>
+              </div>
+            </div>
+            <div id="play-area">
+              <div class="board">
+                <div id="human-board"></div>
+                <div id="cpu-board"></div>
+              </div>
+              <div id="placement-panel"> 
+                <div id="ship-list-box"></div>
+                <div id="controls">
+                  <div id="tools-box"></div>
+                <div id="random">
+                  <button id="random-btn">RR</button>
+                </div>
+              </div>
+            </div>
+            </div>
+          </section>
+          <section id="game-actions">
+            <button id="reset-btn"></button>
+            <button id="confirm-btn">Confirm</button>
+          </section>
+        </div>
       </div>
-    </div>
-    <div id="status">
-      <div id="message"></div>
-      <div id="current-turn"></div>
-    </div>
-    <div id="setup-board">
-      <div id="human-board"></div>
-      <div id="cpu-board"></div>
-    </div>
-    <div id="reset">
-      <button id="reset-btn"></button>
-    </div>
-    <div id="random">
-      <button id="random-btn">Place ships randomly</button>
-    </div>
-    <div id="confirm">
-      <button id="confirm-btn">Confirm</button>
-    </div>
+    </main>
   </body>
 </html>

@@ -43,6 +43,8 @@ export class GameController {
         }
       this.#startGame();
     })
+
+    this.appEl = document.querySelector("#app");
   }
 
   // initialize
@@ -66,6 +68,7 @@ export class GameController {
   this.resetGameBtn.textContent = "Reset game";
 
   const humanBoardContainer = document.querySelector("#human-board");
+  const controlsContainer = document.querySelector("#ship-tools");
   const onShipPlaced = (ship, row, col, orientation) => {
     const placed = this.game.placeHumanShip(ship, row, col, orientation);
     return placed;
@@ -77,7 +80,13 @@ export class GameController {
     this.confirmBtn.disabled = false;
   }
 
-  this.setupView = new SetupView(humanBoardContainer, onShipPlaced, onComplete);
+  this.setupView = new SetupView(
+  humanBoardContainer,
+  document.querySelector("#ship-list-box"),
+  document.querySelector("#tools-box"),
+  onShipPlaced,
+  onComplete
+);
 
   this.setupView.render(this.game.human.gameboard, ships);
 
@@ -92,7 +101,8 @@ export class GameController {
     this.difficultyButtons.style.display = "none";
     this.difficultyLabel.textContent = `Difficulty: ${this.difficulty[0].toUpperCase() + this.difficulty.slice(1)}`;
     this.confirmBtn.style.display = "none";
-    this.gameView.setMessage("Game started — your turn");                    
+    this.gameView.setMessage("Game started — your turn");
+    this.appEl.classList.add("playing");                   
   }
 
   #initViews() {
@@ -172,6 +182,7 @@ export class GameController {
     this.gameView.setMessage("");
     this.gameView.setTurn("");
 
+    this.appEl.classList.remove("playing");
     this.game = new Game();
     this.#cpuThinking = false;
     this.#setupPhase();

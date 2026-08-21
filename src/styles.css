@@ -28,10 +28,6 @@ a {
     text-decoration: none;
 }
 
-.works {
-    color: olivedrab;
-}
-
 body {
     background-color: rgb(39, 39, 79);
 }
@@ -40,16 +36,13 @@ body {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    border: 1px solid green;
-    height: 20em;
-    width: 20em;
+    width: min(20em, 90vw);
     margin-bottom: 1.5rem;
+    aspect-ratio: 1/1;
 }
 
 .cell {
     border: 1px solid white;
-    height: 2em;
-    width: 2em;
 }
 
 .ship {
@@ -77,10 +70,142 @@ body {
     background-color: lightcoral;
 }
 
-.ship-list button {
+.active {
+    background-color: brown;
+}
+
+/* --- Layout --- */
+#app {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    /* centra el contenido horizontalmente */
+    padding: 1rem;
+}
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    /* status → setup → game-actions, apilados */
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 900px;
+}
+
+.setup-container {
+    display: flex;
+    flex-direction: column;
+    /* dificultad → grilla → placement-panel */
+    align-items: center;
+    gap: 1rem;
+}
+
+#placement-panel {
+    display: grid;
+    gap: 1.75rem;
+}
+
+#ship-list,
+#difficulty-buttons,
+#controls,
+#game-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+#ship-list>button {
+    aspect-ratio: 1/1;
+    width: 3.5rem;
     touch-action: none;
 }
 
-.active {
-    background-color: brown;
+header {
+    text-align: center;
+}
+
+#difficulty {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.playing #placement-panel {
+    display: none;
+}
+
+.playing .board {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.playing #human-board .grid {
+    max-width: 8em;
+}
+
+#cpu-board {
+    display: none;
+    touch-action: none;
+}
+
+.playing #cpu-board {
+    display: block;
+}
+
+@media (min-width: 768px) {
+
+
+    .setup-container {
+        display: grid;
+    }
+
+    #difficulty {
+        text-align: center;
+        width: fit-content;
+        margin: 0 auto;
+    }
+
+    #play-area {
+        display: flex;
+        gap: 1.25rem;
+        margin: 0 auto;
+    }
+
+    #placement-panel {
+        gap: 1.5rem;
+    }
+
+    #ship-list {
+        flex-direction: column;
+        align-items: center;
+
+    }
+
+    #ship-list>button {
+        width: 5.25rem;
+    }
+
+    .grid {
+        width: min(33.75em, 90vw);
+        aspect-ratio: 1 / 1;
+        margin-bottom: 0;
+    }
+
+    .playing .board {
+        flex-direction: row;
+    }
+
+
+    .playing #human-board .grid,
+    .playing #cpu-board .grid {
+        max-width: 26em;
+    }
+
+    .board {
+        gap: 1.75rem;
+    }
 }
