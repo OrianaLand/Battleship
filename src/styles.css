@@ -28,8 +28,28 @@ a {
     text-decoration: none;
 }
 
+/* --- Theme --- */
+:root {
+    --bg: #0a0e27;
+    --surface: #131a3a;
+    --surface-transparent: rgba(19, 26, 58, 0.75);
+    --text: #e8ecff;
+    --grid-line: #2a5566;
+
+    --ship: #22d3ee;
+    --hit: #ff2e97;
+    --miss: #080b21c8;
+    --neon-green: #39ff14;
+    --difficulty: #ff5C00;
+
+    --preview-valid: #90ee90;
+    --preview-invalid: #f08080;
+}
+
 body {
-    background-color: rgb(39, 39, 79);
+    background-color: var(--bg);
+    background-image: url('./assets/world-map.svg');
+    background-size: cover;
 }
 
 .grid {
@@ -42,36 +62,96 @@ body {
 }
 
 .cell {
-    border: 1px solid white;
+    border: 1px solid var(--grid-line);
+    background-color: var(--surface-transparent);
 }
 
 .ship {
-    background-color: goldenrod;
+    background-color: var(--ship);
 }
 
 .hit {
-    background-color: rgba(162, 126, 34, 0.612);
+    background-color: var(--hit);
 }
 
 .miss {
-    background-color: rgb(27, 27, 46);
+    background-color: var(--miss);
 }
 
 #status {
-    color: bisque;
+    color: var(--text);
     font-size: 2em;
 }
 
 .preview-valid {
-    background-color: lightgreen;
+    background-color: var(--preview-valid);
 }
 
 .preview-invalid {
-    background-color: lightcoral;
+    background-color: var(--preview-invalid)
 }
 
 .active {
-    background-color: brown;
+    background-color: var(--difficulty);
+    color: var(--bg);
+}
+
+button:hover:not(:disabled).active {
+    border-color: var(--difficulty);
+    box-shadow: 0 0 8px var(--difficulty);
+}
+
+#difficulty {
+    color: var(--text);
+}
+
+#difficulty,
+#placement-panel,
+#game-actions {
+    background-color: rgba(0, 0, 0, .75);
+    padding: 1rem;
+    border-radius: .5rem;
+
+}
+
+#human-board,
+#cpu-board {
+    border: 1rem solid rgba(0, 0, 0, .75);
+    border-radius: .5rem;
+}
+
+
+
+button {
+    background-color: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--grid-line);
+    border-radius: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+    border-color: var(--ship);
+    box-shadow: 0 0 8px var(--ship);
+}
+
+@keyframes ship-pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 6px var(--ship);
+    }
+
+    50% {
+        box-shadow: 0 0 18px var(--ship);
+    }
+
+}
+
+#ship-list>button:hover {
+    animation: ship-pulse 1.5s ease-in-out infinite;
 }
 
 /* --- Layout --- */
@@ -79,14 +159,12 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    /* centra el contenido horizontalmente */
     padding: 1rem;
 }
 
 #wrapper {
     display: flex;
     flex-direction: column;
-    /* status → setup → game-actions, apilados */
     gap: 1.5rem;
     width: 100%;
     max-width: 900px;
@@ -95,7 +173,6 @@ body {
 .setup-container {
     display: flex;
     flex-direction: column;
-    /* dificultad → grilla → placement-panel */
     align-items: center;
     gap: 1rem;
 }
@@ -147,6 +224,8 @@ header {
     max-width: 8em;
 }
 
+
+
 #cpu-board {
     display: none;
     touch-action: none;
@@ -155,6 +234,11 @@ header {
 .playing #cpu-board {
     display: block;
 }
+
+#game-actions {
+    margin: 0 auto;
+}
+
 
 @media (min-width: 768px) {
 
