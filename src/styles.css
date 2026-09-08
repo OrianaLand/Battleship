@@ -218,6 +218,7 @@ header {
     display: flex;
     flex-direction: column;
     align-items: start;
+    gap: 1rem;
 }
 
 .playing #human-board .grid {
@@ -289,7 +290,7 @@ header {
         max-width: 26em;
     }
 
-    .board {
+    .playing .board {
         gap: 1.75rem;
     }
 }
