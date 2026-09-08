@@ -209,6 +209,7 @@ export class SetupView {
 
         if (placed){
             this.#markPlaced(row, col);
+            this.#clearPreview();
             this.#placedCount++;
             this.#removeFromList(this.#selectedBtn);
             this.#selectedShip = null;
