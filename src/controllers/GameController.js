@@ -77,9 +77,10 @@ export class GameController {
     return placed;
   }
   const onComplete = () => {
-    this.setupView.clear();
+    this.setupView.finishPlacement();
     this.#initViews();
-    this.placeShipsRandomlyBtn.style.display = "none";
+    this.placeShipsRandomlyBtn.disabled = true;
+    /* this.placeShipsRandomlyBtn.style.display = "none"; */
     this.confirmBtn.disabled = false;
   }
 
@@ -95,6 +96,7 @@ export class GameController {
 
   this.confirmBtn.disabled = true;
   this.confirmWrapper.style.display = "";
+  this.placeShipsRandomlyBtn.disabled = false; 
   }
 
   #startGame() {

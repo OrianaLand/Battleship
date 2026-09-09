@@ -153,6 +153,12 @@ button:hover:not(:disabled) {
     animation: ship-pulse 1.5s ease-in-out infinite;
 }
 
+#ship-list>button.selected:hover {
+    animation: none;
+    border-color: transparent;
+    box-shadow: 0 0 0 transparent;
+}
+
 /* --- Layout --- */
 #app {
     min-height: 100vh;
@@ -287,6 +293,32 @@ header {
     transform: translateX(-50%);
     border: 6px solid transparent;
     border-top-color: var(--text);
+}
+
+.placed {
+    pointer-events: none;
+    opacity: 0.4;
+    border: 2px dashed var(--grid-line);
+    background-color: transparent;
+    box-shadow: none;
+}
+
+button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.drag-ghost {
+    position: fixed;
+    pointer-events: none;
+    /* without this line, preview and placement would break */
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 3.5rem;
+    height: 3.5rem;
+    background-color: var(--ship);
+    border-radius: 0.4rem;
+    opacity: 0.85;
 }
 
 @media (min-width: 768px) {

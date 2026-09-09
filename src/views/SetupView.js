@@ -13,6 +13,7 @@ export class SetupView {
     #onComplete;
     #lastRow = null;
     #lastCol = null;
+    #dragGhost = null;
     #dragging = false;
     #shipListContainer;
     #toolsContainer;
@@ -49,12 +50,20 @@ export class SetupView {
                 this.#selectShip(ship, btn);
                 btn.setPointerCapture(e.pointerId)
                 this.#dragging = true;
+
+                this.#dragGhost = document.createElement("div");
+                this.#dragGhost.className = "drag-ghost";
+                this.#dragGhost.textContent = `Ship (${ship.getLength()})`;
+                document.body.appendChild(this.#dragGhost);
+                this.#moveGhost(e);
             });
 
             btn.addEventListener("pointerup", (e)=>{
                 const element = document.elementFromPoint(e.clientX, e.clientY);
                 const cell = element?.closest(".cell")
                 this.#dragging = false;
+                this.#dragGhost?.remove();
+                this.#dragGhost = null;
 
                 if(cell){
                     const row = parseInt(cell.dataset.row);
@@ -69,6 +78,7 @@ export class SetupView {
                 if(this.#dragging){
                     const element = document.elementFromPoint(e.clientX, e.clientY);
                     const cell = element?.closest(".cell");
+                    this.#moveGhost(e);
 
                     if(cell){
                         this.#lastRow = parseInt(cell.dataset.row);
@@ -198,7 +208,7 @@ export class SetupView {
         return cells;
     }
 
-    // --- Placement ----
+    // --- Placement --- //
 
     #placeShip(row, col){
         if (!this.#selectedShip) return;
@@ -211,7 +221,9 @@ export class SetupView {
             this.#markPlaced(row, col);
             this.#clearPreview();
             this.#placedCount++;
-            this.#removeFromList(this.#selectedBtn);
+            this.#selectedBtn.disabled = true;
+            /* this.#removeFromList(this.#selectedBtn); */
+            this.#selectedBtn.classList.add("placed");
             this.#selectedShip = null;
             this.#selectedBtn = null;
         }
@@ -229,9 +241,14 @@ export class SetupView {
         }
     }
 
-    #removeFromList(btn){
-        if(btn) btn.remove();
+    finishPlacement(){
+        this.container.innerHTML = '';       // limpia la grilla de setup (el tablero de juego se renderiza acá)
+        this.#rotateBtn.disabled = true;     // rotate visible pero desactivado
     }
+
+    /* #removeFromList(btn){
+        if(btn) btn.remove();
+    } */
 
     placeHumanShipsRandomly(){
         for (const ship of this.#ships){
@@ -247,9 +264,16 @@ export class SetupView {
         this.#onComplete();
     }
 
+    // --- Helpers --- //
+
     clear(){
         this.container.innerHTML = '';
         this.#shipListContainer.innerHTML = '';
         this.#rotateBtn?.remove();
+    }
+
+    #moveGhost(e){
+        this.#dragGhost.style.left = `${e.clientX}px`;
+        this.#dragGhost.style.top = `${e.clientY}px`;
     }
 }
