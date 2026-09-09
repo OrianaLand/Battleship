@@ -25,6 +25,7 @@ export class GameController {
     this.difficultyButtons = document.querySelector("#difficulty-buttons"); // buttons container
     this.difficultyBtnList = document.querySelectorAll("#difficulty-buttons button"); // buttons list
     this.difficultyLabel = document.querySelector("#difficulty-label");
+    this.difficultyBubble = document.querySelector("#difficulty-bubble");
     this.difficulty = null;
 
     for (const btn of this.difficultyBtnList){
@@ -35,12 +36,14 @@ export class GameController {
       });
     }
 
+    this.confirmWrapper = document.querySelector("#confirm-wrapper");
     this.confirmBtn = document.querySelector("#confirm-btn");
     this.confirmBtn.addEventListener("click", ()=>{
       if (!this.difficulty) {
-        this.gameView.setMessage("You must choose a difficulty");
+        this.difficultyBubble.hidden = false;
         return;   
         }
+      this.difficultyBubble.hidden = true;
       this.#startGame();
     })
 
@@ -91,7 +94,7 @@ export class GameController {
   this.setupView.render(this.game.human.gameboard, ships);
 
   this.confirmBtn.disabled = true;
-  this.confirmBtn.style.display = "";
+  this.confirmWrapper.style.display = "";
   }
 
   #startGame() {
@@ -100,7 +103,7 @@ export class GameController {
     this.game.cpu.difficulty = this.difficulty;
     this.difficultyButtons.style.display = "none";
     this.difficultyLabel.textContent = `Difficulty: ${this.difficulty[0].toUpperCase() + this.difficulty.slice(1)}`;
-    this.confirmBtn.style.display = "none";
+    this.confirmWrapper.style.display = "none";
     this.gameView.setMessage("Game started — your turn");
     this.appEl.classList.add("playing");                   
   }
@@ -181,6 +184,8 @@ export class GameController {
 
     this.gameView.setMessage("");
     this.gameView.setTurn("");
+
+    this.confirmWrapper.style.display = "";
 
     this.appEl.classList.remove("playing");
     this.game = new Game();

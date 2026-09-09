@@ -259,6 +259,36 @@ header {
     background: rgba(0, 0, 0, .75);
 }
 
+#confirm-wrapper {
+    position: relative;
+    /* ancla para la burbuja */
+    display: inline-block;
+}
+
+#difficulty-bubble {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 0.5rem;
+    background-color: var(--text);
+    color: var(--hit);
+    padding: 0.4rem 0.7rem;
+    border-radius: 0.4rem;
+    white-space: nowrap;
+    font-size: 0.85rem;
+}
+
+#difficulty-bubble::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--text);
+}
+
 @media (min-width: 768px) {
 
 
