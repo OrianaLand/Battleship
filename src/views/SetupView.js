@@ -1,4 +1,17 @@
 import { createBoardGrid } from "../dom/renderBoard";
+import carrier from "../assets/ships/carrier.png";
+import battleship from "../assets/ships/battleship.png";
+import cruiser from "../assets/ships/cruiser.png";
+import submarine from "../assets/ships/submarine.png";
+import destroyer from "../assets/ships/destroyer.png";
+
+const SHIP_IMAGES = {
+  Carrier: carrier,
+  Battleship: battleship,
+  Cruiser: cruiser,
+  Submarine: submarine,
+  Destroyer: destroyer,
+};
 
 export class SetupView {
     #grid = null;
@@ -14,6 +27,7 @@ export class SetupView {
     #lastRow = null;
     #lastCol = null;
     #dragGhost = null;
+    #pressing = false;
     #dragging = false;
     #shipListContainer;
     #toolsContainer;
@@ -43,19 +57,28 @@ export class SetupView {
 
         for(const ship of ships){
             const btn = document.createElement("button");
-            btn.textContent = `Ship (${ship.getLength()})`;
+            btn.classList.add("ship-card");
 
+            const name = document.createElement("span");
+            name.className = "ship-name";
+            name.textContent = ship.name;
+
+            const length = document.createElement("span");
+            length.className = "ship-length";
+            length.textContent = `(${ship.getLength()})`;
+
+            const img = document.createElement("img");
+            img.src = SHIP_IMAGES[ship.name];
+            img.alt = ship.name;
+            btn.append(name, img, length);
+            btn.title = ship.name; 
 
             btn.addEventListener("pointerdown", (e) => {
                 this.#selectShip(ship, btn);
                 btn.setPointerCapture(e.pointerId)
-                this.#dragging = true;
-
-                this.#dragGhost = document.createElement("div");
-                this.#dragGhost.className = "drag-ghost";
-                this.#dragGhost.textContent = `Ship (${ship.getLength()})`;
-                document.body.appendChild(this.#dragGhost);
-                this.#moveGhost(e);
+                this.#pressing = true;
+                this.#dragging = false;
+                btn.classList.add("pressing");
             });
 
             btn.addEventListener("pointerup", (e)=>{
@@ -64,6 +87,9 @@ export class SetupView {
                 this.#dragging = false;
                 this.#dragGhost?.remove();
                 this.#dragGhost = null;
+                
+                this.#pressing = false;
+                btn.classList.remove("pressing");
 
                 if(cell){
                     const row = parseInt(cell.dataset.row);
@@ -75,22 +101,34 @@ export class SetupView {
             })
 
             btn.addEventListener("pointermove", (e) =>{
-                if(this.#dragging){
-                    const element = document.elementFromPoint(e.clientX, e.clientY);
-                    const cell = element?.closest(".cell");
-                    this.#moveGhost(e);
+                if (!this.#pressing) return;
+                if(!this.#dragging){
 
-                    if(cell){
-                        this.#lastRow = parseInt(cell.dataset.row);
-                        this.#lastCol = parseInt(cell.dataset.col);
-                        
-                        this.#showPreview(this.#lastRow, this.#lastCol);
-                    }else{
-                        this.#lastRow = null;
-                        this.#lastCol = null;
-                        this.#clearPreview();  
-                    }
+                    this.#dragGhost = btn.cloneNode(true);          
+                    this.#dragGhost.classList.remove("selected", "placed", "pressing");
+                    this.#dragGhost.classList.add("drag-ghost");
+                    document.body.appendChild(this.#dragGhost);
+                    this.#dragging = true;
+                    btn.classList.remove("pressing");
                 }
+                
+                this.#moveGhost(e);
+
+                const element = document.elementFromPoint(e.clientX, e.clientY);
+                const cell = element?.closest(".cell");
+                    
+
+                if(cell){
+                    this.#lastRow = parseInt(cell.dataset.row);
+                    this.#lastCol = parseInt(cell.dataset.col);
+                        
+                    this.#showPreview(this.#lastRow, this.#lastCol);
+                }else{
+                    this.#lastRow = null;
+                    this.#lastCol = null;
+                    this.#clearPreview();  
+                }
+                
             })
             list.appendChild(btn);
         }
@@ -136,7 +174,6 @@ export class SetupView {
     }
 
     // --- Grid Listeners --- //
-
 
     #attachGridListeners() {
         this.#grid.addEventListener("mouseover", (e) => {
@@ -219,13 +256,10 @@ export class SetupView {
 
         if (placed){
             this.#markPlaced(row, col);
-            this.#clearPreview();
             this.#placedCount++;
             this.#selectedBtn.disabled = true;
-            /* this.#removeFromList(this.#selectedBtn); */
             this.#selectedBtn.classList.add("placed");
-            this.#selectedShip = null;
-            this.#selectedBtn = null;
+            this.#deselect();
         }
 
         if(this.#placedCount === this.#ships.length) this.#onComplete();
@@ -242,13 +276,9 @@ export class SetupView {
     }
 
     finishPlacement(){
-        this.container.innerHTML = '';       // limpia la grilla de setup (el tablero de juego se renderiza acá)
-        this.#rotateBtn.disabled = true;     // rotate visible pero desactivado
+        this.container.innerHTML = ''; 
+        this.#rotateBtn.disabled = true;
     }
-
-    /* #removeFromList(btn){
-        if(btn) btn.remove();
-    } */
 
     placeHumanShipsRandomly(){
         for (const ship of this.#ships){
