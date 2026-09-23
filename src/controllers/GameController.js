@@ -57,12 +57,12 @@ export class GameController {
 
   #setupPhase() {
     const ships = [
-    new Ship(5),
-    new Ship(4),
-    new Ship(3),
-    new Ship(3),
-    new Ship(2),
-  ];
+      new Ship(5, "Carrier"),
+      new Ship(4, "Battleship"),
+      new Ship(3, "Cruiser"),
+      new Ship(3, "Submarine"),
+      new Ship(2, "Destroyer"),
+];
 
   this.placeShipsRandomlyBtn.style.display = "";
   this.difficultyButtons.style.display = "";
@@ -80,7 +80,6 @@ export class GameController {
     this.setupView.finishPlacement();
     this.#initViews();
     this.placeShipsRandomlyBtn.disabled = true;
-    /* this.placeShipsRandomlyBtn.style.display = "none"; */
     this.confirmBtn.disabled = false;
   }
 

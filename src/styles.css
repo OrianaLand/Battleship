@@ -58,6 +58,7 @@ body {
     grid-template-rows: repeat(10, 1fr);
     width: min(20em, 90vw);
     aspect-ratio: 1/1;
+    margin: 0 auto;
 }
 
 .cell {
@@ -104,11 +105,12 @@ button:hover:not(:disabled).active {
     color: var(--text);
 }
 
+
 #difficulty,
 #placement-panel,
 #game-actions {
     background-color: rgba(0, 0, 0, .75);
-    padding: 1rem;
+    padding: .75rem;
     border-radius: .5rem;
 
 }
@@ -116,6 +118,12 @@ button:hover:not(:disabled).active {
 #human-board,
 #cpu-board {
     border: 1rem solid rgba(0, 0, 0, .75);
+    border-radius: .5rem;
+}
+
+#human-board {
+    border: .75rem solid transparent;
+    background: rgba(0, 0, 0, .75);
     border-radius: .5rem;
 }
 
@@ -149,14 +157,51 @@ button:hover:not(:disabled) {
 
 }
 
-#ship-list>button:hover {
-    animation: ship-pulse 1.5s ease-in-out infinite;
+.ship-card,
+.drag-ghost {
+    max-width: 6rem;
+    min-height: 5.75rem;
+    touch-action: none;
+    background-color: rgba(0, 0, 0, .75);
 }
 
-#ship-list>button.selected:hover {
+@media (hover: hover) {
+    .ship-card:hover {
+        animation: ship-pulse 1.5s ease-in-out infinite;
+    }
+}
+
+.ship-card.pressing {
+    transform: scale(0.94);
+    /* o translateY(2px) — prueba cuál te gusta */
+}
+
+.ship-card.selected {
+    border-color: var(--ship);
+    box-shadow: 0 0 8px var(--ship);
+
     animation: none;
-    border-color: transparent;
-    box-shadow: 0 0 0 transparent;
+}
+
+.ship-card img,
+.drag-ghost {
+    pointer-events: none;
+}
+
+.drag-ghost {
+    position: fixed;
+    pointer-events: none;
+    /* without this line, preview and placement would break */
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    opacity: 0.85;
+}
+
+.ship-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+
 }
 
 /* --- Layout --- */
@@ -164,15 +209,19 @@ button:hover:not(:disabled) {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 1rem;
+    padding: 0 1rem;
 }
 
 #wrapper {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     width: 100%;
     max-width: 900px;
+}
+
+#status:has(#message:empty):has(#current-turn:empty) {
+    display: none;
 }
 
 .setup-container {
@@ -196,12 +245,6 @@ button:hover:not(:disabled) {
     align-items: end;
     justify-content: center;
     gap: 0.5rem;
-}
-
-#ship-list>button {
-    aspect-ratio: 1/1;
-    width: 3.5rem;
-    touch-action: none;
 }
 
 header {
@@ -229,8 +272,6 @@ header {
 .playing #human-board .grid {
     max-width: 8em;
 }
-
-
 
 #cpu-board {
     display: none;
@@ -308,19 +349,6 @@ button:disabled {
     cursor: not-allowed;
 }
 
-.drag-ghost {
-    position: fixed;
-    pointer-events: none;
-    /* without this line, preview and placement would break */
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    width: 3.5rem;
-    height: 3.5rem;
-    background-color: var(--ship);
-    border-radius: 0.4rem;
-    opacity: 0.85;
-}
-
 @media (min-width: 768px) {
 
 
@@ -348,10 +376,6 @@ button:disabled {
         flex-direction: column;
         align-items: center;
 
-    }
-
-    #ship-list>button {
-        width: 5.25rem;
     }
 
     .grid {
