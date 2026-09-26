@@ -5,6 +5,7 @@ import { SetupView } from "../views/SetupView";
 
 export class GameController {
   #cpuThinking = false;
+  #bubbleTimer = null;
   constructor() {
     this.game = new Game();
     this.gameView = new GameView((row, col) =>
@@ -40,10 +41,15 @@ export class GameController {
     this.confirmBtn = document.querySelector("#confirm-btn");
     this.confirmBtn.addEventListener("click", ()=>{
       if (!this.difficulty) {
-        this.difficultyBubble.hidden = false;
-        return;   
-        }
-      this.difficultyBubble.hidden = true;
+        this.difficultyBubble.classList.add("show");
+        clearTimeout(this.#bubbleTimer);
+        this.#bubbleTimer = setTimeout(() => {
+          this.difficultyBubble.classList.remove("show");
+        }, 2500);
+        return;
+      }
+
+      this.difficultyBubble.classList.remove("show");
       this.#startGame();
     })
 
@@ -191,6 +197,8 @@ export class GameController {
     this.appEl.classList.remove("playing");
     this.game = new Game();
     this.#cpuThinking = false;
+    this.difficultyBubble.classList.remove("show");
+    clearTimeout(this.#bubbleTimer);
     this.#setupPhase();
   }
 }
