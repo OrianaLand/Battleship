@@ -26,6 +26,14 @@ a {
     font-weight: normal;
     list-style: none;
     text-decoration: none;
+    font-family: "Ubuntu", sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
 }
 
 /* --- Theme --- */
@@ -50,6 +58,11 @@ body {
     background-color: var(--bg);
     background-image: url('./assets/world-map.svg');
     background-size: cover;
+}
+
+#title {
+    font-family: "Audiowide", sans-serif;
+    color: var(--ship);
 }
 
 .grid {
