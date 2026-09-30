@@ -52,6 +52,18 @@ textarea {
 
     --preview-valid: #90ee90;
     --preview-invalid: #f08080;
+
+    --fs-title: clamp(1.8rem, 7vw, 3rem);
+    /* Battleship */
+    --fs-status: clamp(1.1rem, 4vw, 1.6rem);
+    /* mensajes de turno */
+    --fs-heading: clamp(1rem, 3vw, 1.175rem);
+    /* labels/títulos de sección */
+    --fs-body: clamp(0.9rem, 2.5vw, 1.05rem);
+    /* botones + nombres */
+    --fs-small: clamp(0.75rem, 2vw, 0.9rem);
+    /* número de celdas */
+
 }
 
 body {
@@ -63,6 +75,7 @@ body {
 #title {
     font-family: "Audiowide", sans-serif;
     color: var(--ship);
+    font-size: var(--fs-title);
 }
 
 .grid {
@@ -93,7 +106,7 @@ body {
 
 #status {
     color: var(--text);
-    font-size: 2em;
+    font-size: var(--fs-status);
 }
 
 .preview-valid {
@@ -128,6 +141,10 @@ button:hover:not(:disabled).active {
 
 }
 
+#difficulty-label {
+    font-size: var(--fs-heading);
+}
+
 #human-board,
 #cpu-board {
     border: 1rem solid rgba(0, 0, 0, .75);
@@ -139,7 +156,6 @@ button:hover:not(:disabled).active {
     background: rgba(0, 0, 0, .75);
     border-radius: .5rem;
 }
-
 
 
 button {
@@ -317,6 +333,23 @@ header {
     padding-bottom: 0.5rem;
     letter-spacing: 0.05em;
     background: rgba(0, 0, 0, .75);
+}
+
+#human-board::before,
+#cpu-board::before {
+    font-size: var(--fs-heading);
+}
+
+#difficulty-buttons button,
+#random-btn,
+#rotate-btn,
+#game-actions button {
+    font-size: var(--fs-body);
+}
+
+.ship-name,
+.ship-length {
+    font-size: var(--fs-small);
 }
 
 #confirm-wrapper {
