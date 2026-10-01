@@ -347,6 +347,13 @@ header {
     font-size: var(--fs-body);
 }
 
+#controls button {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    justify-content: center;
+}
+
 .ship-name,
 .ship-length {
     font-size: var(--fs-small);
@@ -428,6 +435,16 @@ button:disabled {
         flex-direction: column;
         align-items: center;
 
+    }
+
+    #controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    /* dissolves its div box */
+    #tools-box {
+        display: contents;
     }
 
     .grid {

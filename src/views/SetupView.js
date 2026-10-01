@@ -22,6 +22,7 @@ export class SetupView {
     #orientation = "H";
     #placedCount = 0;
     #rotateBtn;
+    #rotateIcon;
     #onShipPlaced;
     #onComplete;
     #lastRow = null;
@@ -159,18 +160,35 @@ export class SetupView {
     #renderRotateButton(){
         const btn = document.createElement("button");
         btn.id = "rotate-btn";
-        btn.textContent = `${this.#orientation}`;
+        btn.title = "Switch orientation";
+
+        const icon = document.createElement("i");
+        icon.setAttribute("aria-hidden", "true");
+
+        const text = document.createElement("span");
+        text.textContent = "Rotate";
+
+        btn.append(icon, text);
         btn.addEventListener("click", () => this.#toggleOrientation());
         this.#toolsContainer.appendChild(btn);
+
         this.#rotateBtn = btn;
+        this.#rotateIcon = icon;
+
+        this.#updateRotateIcon();
     }
 
     #toggleOrientation (){
         this.#orientation = this.#orientation === 'H' ? 'V' : 'H';
-        this.#rotateBtn.textContent = `${this.#orientation}`;
+        this.#updateRotateIcon();
         this.#clearPreview();
         if(this.#lastRow === null && this.#lastCol === null) return;
-        this.#showPreview(this.#lastRow, this.#lastCol);
+        this.#showPreview(this.#lastRow, this.#lastCol); 
+    }
+
+    #updateRotateIcon(){
+        const icon = this.#orientation === 'H' ? 'fa-arrows-left-right' : 'fa-arrows-up-down';
+        this.#rotateIcon.className = `fa-solid ${icon}`;
     }
 
     // --- Grid Listeners --- //
