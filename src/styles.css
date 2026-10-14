@@ -108,6 +108,11 @@ body {
 #status {
     color: var(--text);
     font-size: var(--fs-status);
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .preview-valid {
@@ -132,7 +137,7 @@ button:hover:not(:disabled).active {
     color: var(--text);
 }
 
-
+#status,
 #difficulty,
 #placement-panel,
 #game-actions {
