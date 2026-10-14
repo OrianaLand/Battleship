@@ -153,16 +153,10 @@ button:hover:not(:disabled).active {
 
 #human-board,
 #cpu-board {
-    border: 1rem solid rgba(0, 0, 0, .75);
-    border-radius: .5rem;
-}
-
-#human-board {
     border: .75rem solid transparent;
     background: rgba(0, 0, 0, .75);
     border-radius: .5rem;
 }
-
 
 button {
     background-color: var(--surface);
@@ -304,7 +298,7 @@ header {
 }
 
 .playing #human-board .grid {
-    max-width: 8em;
+    max-width: 10.75em;
 }
 
 #cpu-board {
