@@ -83,4 +83,13 @@ describe("Gameboard", () => {
 
     expect(gameboard.allShipsSunk()).toBe(true);
   });
+
+  test("receiveAttack returns 'sunk' when the hit sinks the ship", () => {
+    const board = new Gameboard();
+    const ship = new Ship(2);
+    board.placeShip(ship, 0, 0, "H");
+
+    expect(board.receiveAttack(0, 0)).toBe("hit");    // hit that doesn't sink
+    expect(board.receiveAttack(0, 1)).toBe("sunk");   // hit that sinks
+  });
 });

@@ -168,7 +168,7 @@ export class GameController {
       return;
     }
 
-    if (result === "hit") {
+    if (result === "hit" || result === "sunk" ) {
       await this.#handleCpuAttack(); // CPU gets another turn
     }
   }
