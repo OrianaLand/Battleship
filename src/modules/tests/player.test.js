@@ -8,9 +8,9 @@ describe("Player", () => {
   let opponentGameboard;
 
   beforeEach(() => {
-    humanPlayer = new Player("human"); // Create a new Player before each git test
-    computerPlayer = new Player("computer"); // Create a new Player before each git test
-    opponentGameboard = new Gameboard(); // Create a new Player before each git test);
+    humanPlayer = new Player("human"); // Create a new Player before each test
+    computerPlayer = new Player("computer"); // Create a new Player before each test
+    opponentGameboard = new Gameboard(); // Create a new Gameboard before each test
 
     //Places a ship on opponent's board for attack tests
     const ship = new Ship(4);

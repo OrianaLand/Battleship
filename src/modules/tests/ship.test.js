@@ -4,7 +4,7 @@ describe("Ship", () => {
   let ship;
 
   beforeEach(() => {
-    ship = new Ship(4); // Create a fresh ship before each git test
+    ship = new Ship(4); // Create a fresh ship before each test
   });
 
   test("Has a lenght property", () => {

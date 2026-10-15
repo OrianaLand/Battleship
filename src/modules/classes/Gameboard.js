@@ -1,5 +1,3 @@
-import { Ship } from "./Ship";
-
 export class Gameboard {
   constructor(size = 10) {
     this.size = size;
@@ -12,7 +10,7 @@ export class Gameboard {
   }
 
   placeShip(ship, row, col, orientation) {
-    //Check if placemente is valid
+    //Check if placement is valid
     if (!this.isValidPlacement(ship, row, col, orientation)) {
       return false;
     }

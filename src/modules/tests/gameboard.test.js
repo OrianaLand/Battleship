@@ -4,7 +4,7 @@ describe("Gameboard", () => {
   let gameboard;
 
   beforeEach(() => {
-    gameboard = new Gameboard(); // Create a fresh gameboard before each git test
+    gameboard = new Gameboard(); // Create a fresh gameboard before each test
   });
 
   test("Gameboard should be a 10x10 grid", () => {

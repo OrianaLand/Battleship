@@ -1,5 +1,4 @@
 import { Game } from "../classes/Game";
-import { Player } from "../classes/Player";
 import { Ship } from "../classes/Ship";
 
 // Mock the randomAttack method to make CPU behavior predictable in tests

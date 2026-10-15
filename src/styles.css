@@ -53,16 +53,12 @@ textarea {
     --preview-valid: #90ee90;
     --preview-invalid: #f08080;
 
+    /*font sizes*/
     --fs-title: clamp(1.8rem, 7vw, 3rem);
-    /* Battleship */
     --fs-status: clamp(1.1rem, 4vw, 1.6rem);
-    /* mensajes de turno */
     --fs-heading: clamp(1rem, 3vw, 1.175rem);
-    /* labels/títulos de sección */
     --fs-body: clamp(0.9rem, 2.5vw, 1.05rem);
-    /* botones + nombres */
     --fs-small: clamp(0.75rem, 2vw, 0.9rem);
-    /* número de celdas */
 
 }
 

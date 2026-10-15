@@ -72,7 +72,6 @@ export class GameController {
     this.appEl = document.querySelector("#app");
   }
 
-  // initialize
   init() {
     this.#setupPhase();
   }
