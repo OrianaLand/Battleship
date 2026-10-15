@@ -37,7 +37,11 @@ export class GameView {
   }
 
   showGameOver(winner) {
-    this.message.update(`Game over! ${winner} wins!`);
+    if(winner === "human"){
+      this.message.update("VICTORY! Enemy fleet destroyed!")
+    }else{
+      this.message.update("DEFEAT! Your fleet has been sunk!");
+    }
     this.currentTurn.clear();
   }
 }

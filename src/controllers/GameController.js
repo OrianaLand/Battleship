@@ -3,6 +3,22 @@ import { Ship } from "../modules/classes/Ship";
 import { GameView } from "../views/GameView";
 import { SetupView } from "../views/SetupView";
 
+const RESULT_WORD = {miss: "MISS! —", hit: "HIT! —", sunk: "SUNK! —"};
+
+const CODA = {
+  human: {
+    miss: "Enemy's turn!",
+    hit: "Fire again, Commander!",
+    sunk: "Fire again!",
+  },
+
+  cpu: {
+    miss: "Your turn, Commander.",
+    hit: "They fire again!",
+    sunk: "Enemy fires again!",
+  },
+};
+
 export class GameController {
   #cpuThinking = false;
   #bubbleTimer = null;
@@ -130,8 +146,8 @@ export class GameController {
     try {
       const result = this.game.humanAttack(row, col);
       this.gameView.updateCpuBoard(row, col);
-      this.gameView.setMessage(`You attacked (${row}, ${col}): ${result}`);
-      this.gameView.setTurn(`Current turn: ${this.game.currentTurn}`);
+      this.gameView.setMessage(`You: ${RESULT_WORD[result]}`);
+      this.gameView.setTurn(CODA.human[result]);
 
       if (this.game.state === "over") {
         this.#handleGameOver();
@@ -152,14 +168,14 @@ export class GameController {
   async #handleCpuAttack() {
     if (this.game.state !== "playing") return;
 
-    await this.#sleep(1000);
+    await this.#sleep(1500);
 
     if (this.game.state !== "playing") return;
 
     const { row, col, result } = this.game.cpuAttack();
     this.gameView.updateHumanBoard(row, col);
-    this.gameView.setMessage(`CPU attacked (${row}, ${col}): ${result}`);
-    this.gameView.setTurn(`Current turn: ${this.game.currentTurn}`);
+    this.gameView.setMessage(`Enemy: ${RESULT_WORD[result]}`);
+    this.gameView.setTurn(CODA.cpu[result]);
 
 
     if (this.game.state === "over") {
