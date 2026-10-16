@@ -1,9 +1,17 @@
-/* ---Light CSS Reset--- */
 html {
     font-size: 16px;
     height: 100%;
+    scrollbar-gutter: stable;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
+html::-webkit-scrollbar {
+    display: none;
+}
+
+/* ---Light CSS Reset--- */
 *,
 *:before,
 *:after {
@@ -234,6 +242,12 @@ button:hover:not(:disabled) {
     display: flex;
     justify-content: center;
     padding: 0 1rem;
+    padding-top: .5em;
+    transition: padding-top 0.3s ease;
+}
+
+#app.playing {
+    padding-top: 2em;
 }
 
 #wrapper {
@@ -482,6 +496,14 @@ button:disabled {
         left: auto;
         transform: none;
         right: 0.75rem;
+    }
+
+    #app {
+        padding-top: 0;
+    }
+
+    #app.playing {
+        padding-top: 2em;
     }
 
 }
