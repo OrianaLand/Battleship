@@ -8,6 +8,7 @@ export default {
     filename: "main.js",
     path: path.resolve("./dist"),
     clean: true,
+    publicPath: "./",
   },
   devtool: "eval-source-map",
   devServer: {
