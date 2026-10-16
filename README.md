@@ -56,6 +56,23 @@ npm test
 - Responsive, mobile-first CSS (Grid, Flexbox, `clamp()`, `@media (hover)`)
 - A disciplined git workflow — feature branches and conventional commits
 
+## AI-Assisted Development
+
+This project was built with the help of [Claude Code](https://claude.com/product/claude-code), using prompt-driven workflows to speed up development while keeping me in control of the design.
+
+**How I used it**
+
+- **Architecture first:** I designed the class structure myself (game logic, AI, DOM layer), then used Claude Code to scaffold and refactor against that plan.
+- **Targeted prompts:** e.g. *"Refactor the ship placement validation to remove duplicated bounds checks, without changing the public API."*
+- **Debugging:** I used it to trace bugs, such as event delegation issues in the board click handler.
+- **Review and testing:** I read and tested every change before keeping it, and rewrote parts that didn't fit my design.
+
+**What I learned**
+
+- Small, well-scoped prompts gave better results than broad ones.
+- Giving context (file structure, constraints, conventions) cut down on rework.
+- AI speeds up the writing, but design decisions and verification stay with me.
+
 ## How to Play
 
 1. **Place your fleet** — drag each ship onto your board; use the rotate button to change orientation, or hit random for an auto-layout.
